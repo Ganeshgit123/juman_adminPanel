@@ -1,0 +1,198 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"Banners" | translate}}</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <mat-form-field appearance="standard">
+            <mat-label>{{"Search" | translate}}</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="{{'Search' | translate}}" #input>
+        </mat-form-field>
+    </div>
+    <div class="col-md-5"></div>
+    <div class="col-md-4">
+        <div style="text-align:end;" class="add_popup_btn">
+            <a href="javascript:void(0);" class="btn table_btn mb-2" (click)="openModal(content)">
+                {{"AddBanner" | translate}}
+            </a>
+        </div>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
+</ngx-spinner>
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header">
+        <h5 class="modal-title" *ngIf="!isEdit">{{"AddBanner" | translate}}</h5>
+        <h5 class="modal-title" *ngIf="isEdit">{{"EditBanner" | translate}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body p-3">
+        <form [formGroup]="bannerForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>{{"SelectPage" | translate}}</label>
+                        <select class="form-control" formControlName="header_id" #second
+                            (change)="headerSelect(second.value)"
+                            [ngClass]="{ 'is-invalid': submitted && f['header_id'].errors}">
+                            <option *ngFor="let item of getpages" value="{{item.id}}">{{item.enMenu}}/{{item.arMenu}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted && f['header_id'].errors" class="invalid-feedback">
+                            <div *ngIf="f['header_id'].errors['required']">{{'PageSelectionRequired' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="contentShow">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">{{"TitleEnglish" | translate}}</label>
+                        <angular-editor id="editor1" formControlName="erTitle" [config]="editorConfig"
+                            [ngClass]="{ 'is-invalid': submitted && f['erTitle'].errors}"></angular-editor>
+                        <div *ngIf="submitted && f['erTitle'].errors" class="invalid-feedback">
+                            <div *ngIf="f['erTitle'].errors['required']">{{'TitleRequired' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">{{"TitleArabic" | translate}}</label>
+                        <angular-editor id="editor2" formControlName="arTitle" [config]="editorConfig"
+                            [ngClass]="{ 'is-invalid': submitted && f['arTitle'].errors}"></angular-editor>
+                        <div *ngIf="submitted && f['arTitle'].errors" class="invalid-feedback">
+                            <div *ngIf="f['arTitle'].errors['required']">{{'TitleRequired' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="contentShow">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">{{"ContentEnglish" | translate}}</label>
+                        <angular-editor id="editor3" formControlName="erContent"
+                            [config]="editorConfig"></angular-editor>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">{{"ContentArabic" | translate}}</label>
+                        <angular-editor id="editor4" formControlName="arContent"
+                            [config]="editorConfig"></angular-editor>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">{{"Image" | translate}}</label>
+                        <div class="img_upload">
+                            <label for="usgMeLogo">
+                                <img class="upload-img" *ngIf="!iconImg && !fileUpload"
+                                    src="assets/images/upload_img.png" />
+                                <img class="upload-img" *ngIf="iconImg && !fileUpload" src="{{endpoint}}/{{iconImg}}" />
+                                <img class="upload-img" *ngIf="fileUpload" src="{{fileUpload}}" />
+                            </label>
+                            <button *ngIf="iconImg || fileUpload" class="btn btn-primary del_btn"
+                                (click)=removeImg()>{{"Delete" |
+                                translate}}</button>
+                            <input type="file" class="custom-file-input" id="usgMeLogo"
+                                (change)="uploadImageFile($event)">
+                            <p *ngIf="!fileImgUpload && submitted" style="color: red;">{{"ImageRequired" | translate}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="text-right">
+            <button type="submit" class="btn table_btn" (click)="onSubmitData()">{{"Save" | translate}}</button>
+            <button type="button" class="btn btn-own-cancel ml-1" (click)="modal('close click')">{{"Cancel" |
+                translate}}</button>
+        </div>
+    </div>
+</ng-template>
+
+<div class="mat-elevation-z8">
+    <table class="table" mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"S.No" | translate}}</th>
+            <td mat-cell *matCellDef="let element; let i = index;"> {{matPaginator.pageSize * matPaginator.pageIndex + i
+                + 1}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pageName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"pageName" | translate}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.header.enMenu}}/{{element.header.arMenu}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="erTitle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"TitleEnglish" | translate}} </th>
+            <td mat-cell *matCellDef="let element" [innerHTML]="element.erTitle"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="arTitle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"TitleArabic" | translate}} </th>
+            <td mat-cell *matCellDef="let element" [innerHTML]="element.arTitle"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="erContent">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"ContentEnglish" | translate}} </th>
+            <td mat-cell *matCellDef="let element" [innerHTML]="element.erContent">
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="arContent">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"ContentArabic" | translate}} </th>
+            <td mat-cell *matCellDef="let element" [innerHTML]="element.arContent"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="path">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"Image" | translate}} </th>
+            <td mat-cell *matCellDef="let element">
+                <img src="{{endpoint}}/{{element.path}}" alt="logo" class="badge_icon">
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rowActionToggle">
+            <th mat-header-cell *matHeaderCellDef>{{"Status" | translate}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <button (change)="changeStatus(element)" class="tog_btn">
+                    <label class="switch">
+                        <input unchecked type="checkbox" *ngIf="element.isActive == false">
+                        <input checked type="checkbox" *ngIf="element.isActive == true">
+                        <span class="slider"></span>
+                    </label>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rowActionIcon">
+            <th mat-header-cell *matHeaderCellDef>{{"Action" | translate}}</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <button mat-button (click)="editBanner(element,content)" class="edit_btn">
+                    <img src="assets/images/edit_icon.svg" onmouseover="this.src='assets/images/edit_hover_icon.svg'"
+                        onmouseout="this.src='assets/images/edit_icon.svg'">
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="9">{{"No data found" | translate}}</td>
+        </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[20, 40, 75]" showFirstLastButtons></mat-paginator>
+
+</div>

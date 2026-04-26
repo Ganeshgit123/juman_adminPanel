@@ -1,0 +1,172 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"HomePage" | translate}}</h2>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
+</ngx-spinner>
+
+<section class="section_separtor">
+    <form [formGroup]="aboutForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"aboutSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"uploadDownloadDocument" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="customFile">
+                            <img class="upload-img" *ngIf="!iconImg && !whatImage" src="assets/images/upload_img.png" />
+                            <p *ngIf="iconImg && !whatImage">{{"FileName" | translate}} : {{endpoint}}/{{iconImg}}</p>
+                            <p *ngIf="whatImage">{{"FileName" | translate}} : {{whatImage}}</p>
+                        </label>
+                        <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn" (click)=removeImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="customFile"
+                            (change)="uploadDocFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitAboutData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="whatWeDoForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"whatweDoSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitWhatWeDo()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="serviceForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"ourServiceSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"GCCServiceImage" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="gccSer">
+                            <img class="upload-img" *ngIf="!gccServiceImg && !gccUpload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="gccServiceImg && !gccUpload" src="{{endpoint}}/{{gccServiceImg}}" />
+                            <img class="upload-img" *ngIf="gccUpload" src="{{gccUpload}}" />
+                        </label>
+                        <button *ngIf="gccServiceImg || gccUpload" class="btn btn-primary del_btn" (click)=removeGcc()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="gccSer"
+                            (change)="uploadGccServiceFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"marketPlaceServiceImg" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="marketSer">
+                            <img class="upload-img" *ngIf="!marketServiceImg && !marketUpload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="marketServiceImg && !marketUpload" src="{{endpoint}}/{{marketServiceImg}}" />
+                            <img class="upload-img" *ngIf="marketUpload" src="{{marketUpload}}" />
+                        </label>
+                        <button *ngIf="marketServiceImg || marketUpload" class="btn btn-primary del_btn" (click)=removeMarketImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="marketSer"
+                            (change)="uploadMarketServiceFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitServiceSect()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,213 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"footerContent" | translate}}</h2>
+    </div>
+</div>
+<section class="section_separtor">
+    <form [formGroup]="mapLinkForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"MapLink" | translate}}</h4>
+                <div class="form-group">
+                    <label for="name">{{"Link" | translate}}</label>
+                    <input type="text" class="form-control"
+                        formControlName="erTitle">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="obSubmitLinkForm()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="footerForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">{{"Address" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Address' | translate}}"
+                        formControlName="address">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"twitterLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'twitterLink' | translate}}"
+                        formControlName="twitterLink">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">{{"MobileNum" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'MobileNum' | translate}}"
+                        formControlName="mobileNumber">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"LinkedInLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'fblink' | translate}}"
+                        formControlName="fbLink">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">{{"Email" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Email' | translate}}"
+                        formControlName="email">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"instaLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'instaLink' | translate}}"
+                        formControlName="instaLink">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"copyRight" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'copyRight' | translate}}"
+                        formControlName="copyright">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"copyRightAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'copyRightAr' | translate}}"
+                        formControlName="copyrightAr">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"stayStringEn" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'stayStringEn' | translate}}"
+                        formControlName="stayStringEn">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"stayStringAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'stayStringAr' | translate}}"
+                        formControlName="stayStringAr">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitFootLeftData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="quickLinkForm">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"StringEN" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringEN' | translate}}"
+                        formControlName="quickStingEn">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"StringEN" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringEN' | translate}}"
+                        formControlName="projectStringEn">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"StringEN" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringEN' | translate}}"
+                        formControlName="operatingStringEn">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"compName" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'compName' | translate}}"
+                        formControlName="gerflorString">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"compName" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'compName' | translate}}"
+                        formControlName="usgMeString">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"StringAR" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringAR' | translate}}"
+                        formControlName="quickStingAr">
+                </div>  
+                <div class="form-group">
+                    <label for="name">{{"StringAR" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringAR' | translate}}"
+                        formControlName="projectStringAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"StringAR" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringAR' | translate}}"
+                        formControlName="operatingStringAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"compLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'compLink' | translate}}"
+                        formControlName="gerflorLink">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"compLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'compLink' | translate}}"
+                        formControlName="usgMeLink">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"StringEN" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringEN' | translate}}"
+                        formControlName="whoStringEn">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"StringEN" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringEN' | translate}}"
+                        formControlName="serviceStringEn">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"StringEN" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringEN' | translate}}"
+                        formControlName="careerStringEn">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"compName" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'compName' | translate}}"
+                        formControlName="bostikString">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="name">{{"StringAR" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringAR' | translate}}"
+                        formControlName="whoStringAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"StringAR" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringAR' | translate}}"
+                        formControlName="serviceStringAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"StringAR" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'StringAR' | translate}}"
+                        formControlName="careerStringAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"compLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'compLink' | translate}}"
+                        formControlName="bostikLink">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitFootRightData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

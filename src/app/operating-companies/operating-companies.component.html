@@ -1,0 +1,182 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"OperatingPage" | translate}}</h2>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
+</ngx-spinner>
+
+<section class="section_separtor">
+    <form [formGroup]="gerFlowCompForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"GerFlowCompCont" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"GerFlowLogo" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="gerLogo">
+                            <img class="upload-img" *ngIf="!gerFlowLogo && !gerUpload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="gerFlowLogo && !gerUpload" src="{{endpoint}}/{{gerFlowLogo}}" />
+                            <img class="upload-img" *ngIf="gerUpload" src="{{gerUpload}}" />
+                        </label>
+                        <button *ngIf="gerFlowLogo || gerUpload" class="btn btn-primary del_btn" (click)=removeGerFlowImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="gerLogo"
+                            (change)="uploadGerFlowImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"gerFlowIamge" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="gerCompany">
+                            <img class="upload-img" *ngIf="!gerCompImg && !getCompUpload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="gerCompImg && !getCompUpload" src="{{endpoint}}/{{gerCompImg}}" />
+                            <img class="upload-img" *ngIf="getCompUpload" src="{{getCompUpload}}" />
+                        </label>
+                        <button *ngIf="gerCompImg || getCompUpload" class="btn btn-primary del_btn" (click)=removeGerCompanyImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="gerCompany"
+                            (change)="uploadGerCompanyImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitGerFlowFormData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="usgMeCompForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"usgMeCompCont" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"usegMeLogo" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="usgMeLogo">
+                            <img class="upload-img" *ngIf="!usgMeLogo && !usgMeLogoUpload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="usgMeLogo && !usgMeLogoUpload" src="{{endpoint}}/{{usgMeLogo}}" />
+                            <img class="upload-img" *ngIf="usgMeLogoUpload" src="{{usgMeLogoUpload}}" />
+                        </label>
+                        <button *ngIf="usgMeLogo || usgMeLogoUpload" class="btn btn-primary del_btn" (click)=removeUsgMeLogoImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="usgMeLogo"
+                            (change)="uploadUsgMeLogoFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"usgMeCompImg" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="usgMeCompFile">
+                            <img class="upload-img" *ngIf="!usgMeCompImg && !usgMeCompUpload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="usgMeCompImg && !usgMeCompUpload" src="{{endpoint}}/{{usgMeCompImg}}" />
+                            <img class="upload-img" *ngIf="usgMeCompUpload" src="{{usgMeCompUpload}}" />
+                        </label>
+                        <button *ngIf="usgMeCompImg || usgMeCompUpload" class="btn btn-primary del_btn" (click)=removeUsgMeCompanyImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="usgMeCompFile"
+                            (change)="uploadUsgMeCompanyFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitUsgMeFormData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="bostikCompForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"bostikCompCont" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"bostikLogo" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="bostikLogo">
+                            <img class="upload-img" *ngIf="!bostikLogo && !bostikLogoupload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="bostikLogo && !bostikLogoupload" src="{{endpoint}}/{{bostikLogo}}" />
+                            <img class="upload-img" *ngIf="bostikLogoupload" src="{{bostikLogoupload}}" />
+                        </label>
+                        <button *ngIf="bostikLogo || bostikLogoupload" class="btn btn-primary del_btn" (click)=removeBostikLogoImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="bostikLogo"
+                            (change)="uploadBostikLogoFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+                <div class="form-group text-center">
+                    <label for="name">{{"botikFlowCompimg" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="bostikCompImg">
+                            <img class="upload-img" *ngIf="!bostikCompImg && !boxtikCompUpload" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="bostikCompImg && !boxtikCompUpload" src="{{endpoint}}/{{bostikCompImg}}" />
+                            <img class="upload-img" *ngIf="boxtikCompUpload" src="{{boxtikCompUpload}}" />
+                        </label>
+                        <button *ngIf="bostikCompImg || boxtikCompUpload" class="btn btn-primary del_btn" (click)=removeBostikCompanyImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="bostikCompImg"
+                            (change)="uploadBostikCompanyFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitBostikFormData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

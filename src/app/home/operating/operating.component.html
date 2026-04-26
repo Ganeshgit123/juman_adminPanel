@@ -1,0 +1,201 @@
+<section class="section_separtor">
+    <form [formGroup]="operaingForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"OperatingCompaniesSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <!-- <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div> -->
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <!-- <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div> -->
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitOperating()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="setion_title">{{"gerFlowIamge" | translate}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"Image" | translate}}</label>
+                <div class="img_upload">
+                    <label for="gerFlowImgSection">
+                        <img class="upload-img" *ngIf="!gerFlowImg && !gerFlowUpload"
+                            src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="gerFlowImg && !gerFlowUpload"
+                            src="{{endpoint}}/{{gerFlowImg}}" />
+                        <img class="upload-img" *ngIf="gerFlowUpload" src="{{gerFlowUpload}}" />
+                    </label>
+                    <button *ngIf="gerFlowImg || gerFlowUpload" class="btn btn-primary del_btn"
+                        (click)=removeGerFlowFileImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="gerFlowImgSection" 
+                     (change)="uploadGerFlowImgFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"ARImage" | translate}}</label>
+                <div class="img_upload">
+                    <label for="gerFlowImgArabicSection">
+                        <img class="upload-img" *ngIf="!gerFlowImgAR && !gerFlowUploadAR"
+                            src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="gerFlowImgAR && !gerFlowUploadAR"
+                            src="{{endpoint}}/{{gerFlowImgAR}}" />
+                        <img class="upload-img" *ngIf="gerFlowUploadAR" src="{{gerFlowUploadAR}}" />
+                    </label>
+                    <button *ngIf="gerFlowImgAR || gerFlowUploadAR" class="btn btn-primary del_btn"
+                        (click)=removeGerFlowARFileImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="gerFlowImgArabicSection"
+                        (change)="uploadGerFlowARImgFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="text-center">
+                <button type="submit" class="btn btn-own" (click)="onSubmitGerFlowData()">{{"Update" |
+                    translate}}</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section_separtor">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="setion_title">{{"usgMeCompImg" | translate}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"Image" | translate}}</label>
+                <div class="img_upload">
+                    <label for="usgMeImgImgSection">
+                        <img class="upload-img" *ngIf="!usgMeImg && !usgMeUpload"
+                            src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="usgMeImg && !usgMeUpload"
+                            src="{{endpoint}}/{{usgMeImg}}" />
+                        <img class="upload-img" *ngIf="usgMeUpload" src="{{usgMeUpload}}" />
+                    </label>
+                    <button *ngIf="usgMeImg || usgMeUpload" class="btn btn-primary del_btn"
+                        (click)=removeUsgMeFileImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="usgMeImgImgSection" 
+                     (change)="uploadUsgMeImgFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"ARImage" | translate}}</label>
+                <div class="img_upload">
+                    <label for="usgMeImgARImgArabicSection">
+                        <img class="upload-img" *ngIf="!usgMeImgAR && !usgMeUploadAR"
+                            src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="usgMeImgAR && !usgMeUploadAR"
+                            src="{{endpoint}}/{{usgMeImgAR}}" />
+                        <img class="upload-img" *ngIf="usgMeUploadAR" src="{{usgMeUploadAR}}" />
+                    </label>
+                    <button *ngIf="usgMeImgAR || usgMeUploadAR" class="btn btn-primary del_btn"
+                        (click)=removeUsgMeARFileImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="usgMeImgARImgArabicSection"
+                        (change)="uploadUsgMeARImgFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="text-center">
+                <button type="submit" class="btn btn-own" (click)="onSubmitUsgMeData()">{{"Update" |
+                    translate}}</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section_separtor">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="setion_title">{{"botikFlowCompimg" | translate}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"Image" | translate}}</label>
+                <div class="img_upload">
+                    <label for="botikImgSection">
+                        <img class="upload-img" *ngIf="!bostikImg && !bostikUpload"
+                            src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="bostikImg && !bostikUpload"
+                            src="{{endpoint}}/{{bostikImg}}" />
+                        <img class="upload-img" *ngIf="bostikUpload" src="{{bostikUpload}}" />
+                    </label>
+                    <button *ngIf="bostikImg || bostikUpload" class="btn btn-primary del_btn"
+                        (click)=removeBostikFileImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="botikImgSection" 
+                     (change)="uploadBostikImgFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"ARImage" | translate}}</label>
+                <div class="img_upload">
+                    <label for="bostikARImgArabicSection">
+                        <img class="upload-img" *ngIf="!bostikImgAR && !bostikUploadAR"
+                            src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="bostikImgAR && !bostikUploadAR"
+                            src="{{endpoint}}/{{bostikImgAR}}" />
+                        <img class="upload-img" *ngIf="bostikUploadAR" src="{{bostikUploadAR}}" />
+                    </label>
+                    <button *ngIf="bostikImgAR || bostikUploadAR" class="btn btn-primary del_btn"
+                        (click)=removeBostikARFileImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="bostikARImgArabicSection"
+                        (change)="uploadBostikARImgFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="text-center">
+                <button type="submit" class="btn btn-own" (click)="onSubmitBostikData()">{{"Update" |
+                    translate}}</button>
+            </div>
+        </div>
+    </div>
+</section>

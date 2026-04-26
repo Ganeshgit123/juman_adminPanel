@@ -1,0 +1,247 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"BoardDirectorPage" | translate}}</h2>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
+</ngx-spinner>
+<!-- <section class="section_separtor">
+    <form [formGroup]="boardHeadForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"HeadSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                    formControlName="erContent">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                    formControlName="arContent">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitHeadSec()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section> -->
+
+<section class="section_separtor">
+    <form [formGroup]="charimanForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"CharimanSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="sectionHead">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Name" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                    formControlName="sectionHeadAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"NameAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"Image" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="customFile">
+                            <img class="upload-img" *ngIf="!chairmanImg && !chairUploadImg" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="chairmanImg && !chairUploadImg" src="{{endpoint}}/{{chairmanImg}}" />
+                            <img class="upload-img" *ngIf="chairUploadImg" src="{{chairUploadImg}}" />
+                        </label>
+                        <button *ngIf="chairmanImg || chairUploadImg" class="btn btn-primary del_btn"
+                            (click)=removeImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="customFile" (change)="uploadImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitChairmanSec()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="ceoForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"ceoSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="sectionHead">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Name" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                    formControlName="sectionHeadAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"NameAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"Image" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="ceoImgeFile">
+                            <img class="upload-img" *ngIf="!ceoImg && !ceoUploadImg" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="ceoImg && !ceoUploadImg" src="{{endpoint}}/{{ceoImg}}" />
+                            <img class="upload-img" *ngIf="ceoUploadImg" src="{{ceoUploadImg}}" />
+                        </label>
+                        <button *ngIf="ceoImg || ceoUploadImg" class="btn btn-primary del_btn"
+                            (click)=removeCEOImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="ceoImgeFile" (change)="uploadCeoImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitCeoSec()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="boardADDForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"Section" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="sectionHead">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Name" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                    formControlName="sectionHeadAr">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"NameAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"Image" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="execDirec">
+                            <img class="upload-img" *ngIf="!execDirImg && !execUploadImg" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="execDirImg && !execUploadImg" src="{{endpoint}}/{{execDirImg}}" />
+                            <img class="upload-img" *ngIf="execUploadImg" src="{{execUploadImg}}" />
+                        </label>
+                        <button *ngIf="execDirImg || execUploadImg" class="btn btn-primary del_btn"
+                            (click)=removeExecDirectImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="execDirec" (change)="uploadExecDirecImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitBODADDSec()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

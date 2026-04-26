@@ -1,0 +1,291 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"LatestNewsSec" | translate}}</h2>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
+</ngx-spinner>
+
+<section class="section_separtor">
+    <form [formGroup]="newsLinkForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"HeadSection" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'description' | translate}}"
+                        formControlName="erContent">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'descriptionAR' | translate}}"
+                        formControlName="arContent">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"LatestNewsSecLink" | translate}}</h4>
+                <div class="form-group">
+                    <label for="name">{{"Link" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Link' | translate}}"
+                        formControlName="additionalInfo">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="obSubmitLinkForm()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="latestForm1">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"News1" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <textarea class="form-control" formControlName="erContent"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Link" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Link' | translate}}"
+                        formControlName="link">
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" placeholder="{{'Date' | translate}}"
+                            formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <textarea class="form-control" formControlName="arContent"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"LinkAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'LinkAr' | translate}}"
+                        formControlName="linkAr">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"Image" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="customFile">
+                            <img class="upload-img" *ngIf="!latestImg11 && !latUpload"
+                                src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="latestImg11 && !latUpload"
+                                src="{{endpoint}}/{{latestImg11}}" />
+                            <img class="upload-img" *ngIf="latUpload" src="{{latUpload}}" />
+                        </label>
+                        <button *ngIf="latestImg11 || latUpload" class="btn btn-primary del_btn"
+                            (click)=removeLatest1Img()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="customFile"
+                            (change)="uploadLatestImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitLatest1FormData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="latestForm22">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"News2" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <textarea class="form-control" formControlName="erContent"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Link" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Link' | translate}}"
+                        formControlName="link">
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker2" placeholder="{{'Date' | translate}}"
+                            formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <textarea class="form-control" formControlName="arContent"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"LinkAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'LinkAr' | translate}}"
+                        formControlName="linkAr">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"Image" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="late2File">
+                            <img class="upload-img" *ngIf="!latestImg2 && !lat2Upload"
+                                src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="latestImg2 && !lat2Upload"
+                                src="{{endpoint}}/{{latestImg2}}" />
+                            <img class="upload-img" *ngIf="lat2Upload" src="{{lat2Upload}}" />
+                        </label>
+                        <button *ngIf="latestImg2 || lat2Upload" class="btn btn-primary del_btn"
+                            (click)=removeLatest2Img()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="late2File"
+                            (change)="uploadLatest2ImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitLatest22FormData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section class="section_separtor">
+    <form [formGroup]="latestForm33">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"News3" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"Title" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
+                        formControlName="erTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <textarea class="form-control" formControlName="erContent"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"Link" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'Link' | translate}}"
+                        formControlName="link">
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker3" placeholder="{{'Date' | translate}}"
+                            formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
+                        formControlName="arTitle">
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <textarea class="form-control" formControlName="arContent"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="name">{{"LinkAr" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'LinkAr' | translate}}"
+                        formControlName="linkAr">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"Image" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="late3File">
+                            <img class="upload-img" *ngIf="!latestImg3 && !lat3Upload"
+                                src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="latestImg3 && !lat3Upload"
+                                src="{{endpoint}}/{{latestImg3}}" />
+                            <img class="upload-img" *ngIf="lat3Upload" src="{{lat3Upload}}" />
+                        </label>
+                        <button *ngIf="latestImg3 || lat3Upload" class="btn btn-primary del_btn"
+                            (click)=removeLatest3Img()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="late3File"
+                            (change)="uploadLatest3ImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitLatest33FormData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

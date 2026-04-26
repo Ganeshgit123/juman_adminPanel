@@ -1,0 +1,131 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"MarketPage" | translate}}</h2>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
+</ngx-spinner>
+
+<section class="section_separtor">
+    <form [formGroup]="marketPlaceFirstForm">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="setion_title">{{"MarketContentSect" | translate}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"description" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group text-center">
+                    <label for="name">{{"Image" | translate}}</label>
+                    <div class="img_upload">
+                        <label for="customFile">
+                            <img class="upload-img" *ngIf="!iconImg && !whatImage" src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="iconImg && !whatImage" src="{{endpoint}}/{{iconImg}}" />
+                            <img class="upload-img" *ngIf="whatImage" src="{{whatImage}}" />
+                        </label>
+                        <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn"
+                            (click)=removeImg()>{{"Delete" |
+                            translate}}</button>
+                        <input type="file" class="custom-file-input" id="customFile" (change)="uploadImageFile($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitMarketFormData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<!-- <section class="section_separtor">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"AdBanEng" | translate}}</label>
+                <div class="img_upload">
+                    <label for="addBannerEng">
+                        <img class="upload-img" *ngIf="!adbanEngImg && !adbanEngUpload" src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="adbanEngImg && !adbanEngUpload" src="{{endpoint}}/{{adbanEngImg}}" />
+                        <img class="upload-img" *ngIf="adbanEngUpload" src="{{adbanEngUpload}}" />
+                    </label>
+                    <button *ngIf="adbanEngImg || adbanEngUpload" class="btn btn-primary del_btn" (click)=removeAdBanEngImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="addBannerEng"
+                        (change)="uploadAdBanEngImageFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <label for="name">{{"adBanAra" | translate}}</label>
+                <div class="img_upload">
+                    <label for="addBannerArabic">
+                        <img class="upload-img" *ngIf="!adbanARImg && !adbanARUpload" src="assets/images/upload_img.png" />
+                        <img class="upload-img" *ngIf="adbanARImg && !adbanARUpload" src="{{endpoint}}/{{adbanARImg}}" />
+                        <img class="upload-img" *ngIf="adbanARUpload" src="{{adbanARUpload}}" />
+                    </label>
+                    <button *ngIf="adbanARImg || adbanARUpload" class="btn btn-primary del_btn" (click)=removeAdBanARImg()>{{"Delete" |
+                        translate}}</button>
+                    <input type="file" class="custom-file-input" id="addBannerArabic"
+                        (change)="uploadAdBanARImageFile($event)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="text-center">
+                <button type="submit" class="btn btn-own" (click)="onSubmitAdBannerData()">{{"Update" |
+                    translate}}</button>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<section class="section_separtor">
+    <form [formGroup]="linkForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">{{"googlePlayLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'googlePlayLink' | translate}}"
+                        formControlName="gplayLink">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">{{"appStoreLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'appStoreLink' | translate}}"
+                        formControlName="appStoLink">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">{{"WebsiteLink" | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'WebsiteLink' | translate}}"
+                        formControlName="webLink">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-own" (click)="onSubmitLinkData()">{{"Update" |
+                        translate}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,47 @@
+<section class="logo_section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4 pr-0 pl-0">
+        <div class="logo_left_Sec">
+          <p class="text-center"><img src="assets/images/logo.svg"> </p>
+          <p class="text-center mt-4">{{"Welcome Back!" | translate}}</p>
+          <p class="text-center">{{"Sign in to continue to juman investment" | translate}}</p>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label>{{"Email Id" | translate}}</label>
+              <input type="email" formControlName="email" (keydown)="changeText()" class="form-control" id="email"
+              placeholder="email@email.com" />
+            <p *ngIf="!loginForm.controls.email.valid && submitted" class="text_error">{{"Please enter a valid email id"
+               | translate}}</p>
+            </div>
+
+            <div class="form-group auth-form-group-custom mb-4">
+              <i class="ri-lock-2-line auti-custom-input-icon"></i>
+              <label for="password">{{"Password" | translate}}</label>
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="password" (keydown)="changeText()"
+                class="form-control" placeholder="******" id="password" />
+              <i alt="show" class="mdi mdi-eye-outline eye_symbol" (click)="showPassword = !showPassword"
+                [class.hide]="showPassword"></i>
+  
+              <i alt="hide" class="mdi mdi-eye-off-outline eye_symbol" (click)="showPassword = !showPassword"
+                [class.hide]="!showPassword"></i>
+              <p *ngIf="!loginForm.controls.password.valid && submitted" class="text_error">{{"Please enter a valid password" 
+                | translate}}</p>
+            </div>
+
+            <p class="text-center text_error pv10" *ngIf="isShow"><span>{{errorMessge}}</span></p>
+
+          <div class="sub_btn text-center">
+            <p>
+              <button class="btn btn-primary w-md waves-effect waves-light" type="submit">{{"Log In" | translate}}</button>
+            </p>
+          </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-8 pr-0 pl-0">
+        <img src="assets/images/logo_img.svg" class="right_img">
+      </div>
+    </div>
+  </div>
+</section>

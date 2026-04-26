@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h2 class="mb-3 mb-md-0">{{"HeaderMenus" | translate}}</h2>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
+</ngx-spinner>
+<!-- <div class="row">
+    <div class="col-md-10">
+        <div class="form-group text-center">
+            <label for="name">{{"LOGO" | translate}}</label>
+            <div class="img_upload">
+                <label for="customFile">
+                    <img class="upload-img" *ngIf="!iconImg && !whatImage" src="assets/images/upload_img.png" />
+                    <img class="upload-img" *ngIf="iconImg && !whatImage" src="{{endpoint}}/{{iconImg}}" />
+                    <img class="upload-img" *ngIf="whatImage" src="{{whatImage}}" />
+                </label>
+                <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn" (click)=removeImg()>{{"Delete" |
+                    translate}}</button>
+                <input type="file" class="custom-file-input" id="customFile" (change)="uploadImageFile($event)">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button class="update_btn" (click)="onLogoUpdate()">{{"Update" | translate}}</button>
+    </div>
+</div> -->
+<div class="row">
+    <div class="col-md-11">
+        <form [formGroup]="menuForm">
+            <div formArrayName="product">
+                <div class="row" *ngFor="let comp of menuForm['controls'].product['controls']; let i=index;">
+                    <div class="col-md-12" [formGroupName]="i">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>{{"Menu"| translate}} {{i+1}}</label>
+                                    <input type="text" class="form-control" formControlName="enMenu">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>{{"Menu" | translate}} {{i+1}} {{"Arabic" | translate}}</label>
+                                    <input type="text" class="form-control" formControlName="arMenu">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="update_btn" (click)="onSubmit(comp)">{{"Update" | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-1">
+        <div class="row top_mar">
+            <div class="col-md-12">
+                <div *ngFor="let item of getvalue" class="menu_tog">
+                    <button (change)="changeMenuStatus(item)" class="tog_btn">
+                        <label class="switch">
+                            <input unchecked type="checkbox" *ngIf="item.isActive == false">
+                            <input checked type="checkbox" *ngIf="item.isActive == true">
+                            <span class="slider"></span>
+                        </label>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

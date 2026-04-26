@@ -1,0 +1,25 @@
+.update_btn{
+    background: var(--main-color);
+    color: var(--white-color);
+    font-weight: 500;
+    font-size: var(--heading-h6);
+    border:none;
+    padding: 5px 30px;
+    margin-top: 33px;
+}
+.update_btn:hover{
+    border: 1px solid var(--main-color);
+    background: transparent;
+    color: var(--main-color);
+}
+.top_mar{
+    margin-top: 2.5rem;
+}
+.menu_tog{
+    padding: 0 0 60px 0;  
+}
+@media only screen and (min-width: 320px) and (max-width: 767px) { 
+    .top_mar{
+        display: none;
+    }
+}

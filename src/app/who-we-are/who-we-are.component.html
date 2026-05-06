@@ -8,6 +8,7 @@
     <p style="font-size: 20px; color: white"> {{"Loading" | translate}}...</p>
 </ngx-spinner>
 
+<!-- ═══════════════ Top Section ═══════════════ -->
 <section class="section_separtor">
     <form [formGroup]="topSectionForm">
         <div class="row">
@@ -18,20 +19,21 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"Title" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="erTitle" [config]="editorConfig"></angular-editor>
-
+                    <label>{{"Title" | translate}}</label>
+                    <angular-editor id="topSection_er" formControlName="erTitle"
+                        [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"TitleAr" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="arTitle" [config]="editorConfig"></angular-editor>
+                    <label>{{"TitleAr" | translate}}</label>
+                    <angular-editor id="topSection_ar" formControlName="arTitle"
+                        [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-own" (click)="onSubmitTopSectionData()">{{"Update" |
+                    <button type="button" class="btn btn-own" (click)="onSubmitTopSectionData()">{{"Update" |
                         translate}}</button>
                 </div>
             </div>
@@ -39,6 +41,7 @@
     </form>
 </section>
 
+<!-- ═══════════════ What We Do ═══════════════ -->
 <section class="section_separtor">
     <form [formGroup]="whatWeDoForm">
         <div class="row">
@@ -49,45 +52,45 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"Title" | translate}}</label>
+                    <label>{{"Title" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
                         formControlName="erTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"description" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"description" | translate}}</label>
+                    <angular-editor id="whatWeDo_er" formControlName="erContent"
+                        [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <label>{{"TitleAr" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
                         formControlName="arTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"descriptionAR" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="whatWeDo_ar" formControlName="arContent"
+                        [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group text-center">
-                    <label for="name">{{"Image" | translate}}</label>
+                    <label>{{"Image" | translate}}</label>
                     <div class="img_upload">
                         <label for="customFile">
-                            <img class="upload-img" *ngIf="!iconImg && !whatImage" src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="iconImg && !whatImage" src="{{endpoint}}/{{iconImg}}" />
-                            <img class="upload-img" *ngIf="whatImage" src="{{whatImage}}" />
+                            <img class="upload-img"
+                                [src]="whatImage || (iconImg ? endpoint+'/'+iconImg : 'assets/images/upload_img.png')" />
                         </label>
-                        <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn"
-                            (click)=removeImg()>{{"Delete" |
-                            translate}}</button>
+                        <button *ngIf="iconImg || whatImage" type="button" class="btn btn-primary del_btn"
+                            (click)="removeImg()">{{"Delete" | translate}}</button>
                         <input type="file" class="custom-file-input" id="customFile" (change)="uploadImageFile($event)">
                     </div>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-own" (click)="onSubmitWhatWeDoData()">{{"Update" |
+                    <button type="button" class="btn btn-own" (click)="onSubmitWhatWeDoData()">{{"Update" |
                         translate}}</button>
                 </div>
             </div>
@@ -95,6 +98,7 @@
     </form>
 </section>
 
+<!-- ═══════════════ Counter ═══════════════ -->
 <section class="section_separtor">
     <form [formGroup]="counterSecForm">
         <div class="row">
@@ -105,14 +109,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"Title" | translate}}</label>
+                    <label>{{"Title" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
                         formControlName="erTitle">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <label>{{"TitleAr" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
                         formControlName="arTitle">
                 </div>
@@ -121,127 +125,111 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"consolidateRevenue" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="firstContent">
+                    <label>{{"consolidateRevenue" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="firstContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"consolidateRevenueAr" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="arFirstContent">
+                    <label>{{"consolidateRevenueAr" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="arFirstContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"consolidateValue" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="firstValue">
+                    <label>{{"consolidateValue" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="firstValue">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"consolidateValueAr" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="firstValueAr">
+                    <label>{{"consolidateValueAr" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="firstValueAr">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"EmployeesEnglish" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="secondContent">
+                    <label>{{"EmployeesEnglish" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="secondContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"EmployeesAr" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="arSecondContent">
+                    <label>{{"EmployeesAr" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="arSecondContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"NoEmployees" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="secondValue">
+                    <label>{{"NoEmployees" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="secondValue">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"NoEmployeesAr" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="secondValueAr">
+                    <label>{{"NoEmployeesAr" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="secondValueAr">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"countiresEnglish" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="thirdContent">
+                    <label>{{"countiresEnglish" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="thirdContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"countiresAr" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="arThirdContent">
+                    <label>{{"countiresAr" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="arThirdContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"NoCountry" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="thirdValue">
+                    <label>{{"NoCountry" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="thirdValue">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"NoCountryAr" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="thirdValueAr">
+                    <label>{{"NoCountryAr" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="thirdValueAr">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"regionalEnglish" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="fourthContent">
+                    <label>{{"regionalEnglish" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="fourthContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"regionalArabic" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="arFourthContent">
+                    <label>{{"regionalArabic" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="arFourthContent">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"NoRegionalEn" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="fourthValue">
+                    <label>{{"NoRegionalEn" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="fourthValue">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">{{"NoRegionalAr" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
-                        formControlName="fourthValueAr">
+                    <label>{{"NoRegionalAr" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="fourthValueAr">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-own" (click)="onSubmitCounterData()">{{"Update" |
+                    <button type="button" class="btn btn-own" (click)="onSubmitCounterData()">{{"Update" |
                         translate}}</button>
                 </div>
             </div>
@@ -249,6 +237,7 @@
     </form>
 </section>
 
+<!-- ═══════════════ Our Vision ═══════════════ -->
 <section class="section_separtor">
     <form [formGroup]="ourVisionForm">
         <div class="row">
@@ -259,39 +248,36 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"Title" | translate}}</label>
+                    <label>{{"Title" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
                         formControlName="erTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"description" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"description" | translate}}</label>
+                    <angular-editor id="vision_er" formControlName="erContent" [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <label>{{"TitleAr" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
                         formControlName="arTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"descriptionAR" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="vision_ar" formControlName="arContent" [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group text-center">
-                    <label for="name">{{"Image" | translate}}</label>
+                    <label>{{"Image" | translate}}</label>
                     <div class="img_upload">
                         <label for="visionImg">
-                            <img class="upload-img" *ngIf="!visonImg && !visionUpload"
-                                src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="visonImg && !visionUpload" src="{{endpoint}}/{{visonImg}}" />
-                            <img class="upload-img" *ngIf="visionUpload" src="{{visionUpload}}" />
+                            <img class="upload-img"
+                                [src]="visionUpload || (visonImg ? endpoint+'/'+visonImg : 'assets/images/upload_img.png')" />
                         </label>
-                        <button *ngIf="visonImg || visionUpload" class="btn btn-primary del_btn"
-                            (click)=removeVisionFileImg()>{{"Delete" |
-                            translate}}</button>
+                        <button *ngIf="visonImg || visionUpload" type="button" class="btn btn-primary del_btn"
+                            (click)="removeVisionFileImg()">{{"Delete" | translate}}</button>
                         <input type="file" class="custom-file-input" id="visionImg"
                             (change)="uploadVisionImgFile($event)">
                     </div>
@@ -299,18 +285,14 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group text-center">
-                    <label for="name">{{"ARImage" | translate}}</label>
+                    <label>{{"ARImage" | translate}}</label>
                     <div class="img_upload">
                         <label for="visionImgArabic">
-                            <img class="upload-img" *ngIf="!visonImgAR && !visionUploadAR"
-                                src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="visonImgAR && !visionUploadAR"
-                                src="{{endpoint}}/{{visonImgAR}}" />
-                            <img class="upload-img" *ngIf="visionUploadAR" src="{{visionUploadAR}}" />
+                            <img class="upload-img"
+                                [src]="visionUploadAR || (visonImgAR ? endpoint+'/'+visonImgAR : 'assets/images/upload_img.png')" />
                         </label>
-                        <button *ngIf="visonImgAR || visionUploadAR" class="btn btn-primary del_btn"
-                            (click)=removeVisionARFileImg()>{{"Delete" |
-                            translate}}</button>
+                        <button *ngIf="visonImgAR || visionUploadAR" type="button" class="btn btn-primary del_btn"
+                            (click)="removeVisionARFileImg()">{{"Delete" | translate}}</button>
                         <input type="file" class="custom-file-input" id="visionImgArabic"
                             (change)="uploadVisionARImgFile($event)">
                     </div>
@@ -318,7 +300,7 @@
             </div>
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-own" (click)="onSubmitVisionData()">{{"Update" |
+                    <button type="button" class="btn btn-own" (click)="onSubmitVisionData()">{{"Update" |
                         translate}}</button>
                 </div>
             </div>
@@ -326,6 +308,7 @@
     </form>
 </section>
 
+<!-- ═══════════════ Our Mission ═══════════════ -->
 <section class="section_separtor">
     <form [formGroup]="ourMissionForm">
         <div class="row">
@@ -336,40 +319,38 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"Title" | translate}}</label>
+                    <label>{{"Title" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
                         formControlName="erTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"description" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"description" | translate}}</label>
+                    <angular-editor id="mission_er" formControlName="erContent"
+                        [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <label>{{"TitleAr" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
                         formControlName="arTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"descriptionAR" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="mission_ar" formControlName="arContent"
+                        [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group text-center">
-                    <label for="name">{{"Image" | translate}}</label>
+                    <label>{{"Image" | translate}}</label>
                     <div class="img_upload">
                         <label for="missionImgcc">
-                            <img class="upload-img" *ngIf="!missionImg && !missionUpload"
-                                src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="missionImg && !missionUpload"
-                                src="{{endpoint}}/{{missionImg}}" />
-                            <img class="upload-img" *ngIf="missionUpload" src="{{missionUpload}}" />
+                            <img class="upload-img"
+                                [src]="missionUpload || (missionImg ? endpoint+'/'+missionImg : 'assets/images/upload_img.png')" />
                         </label>
-                        <button *ngIf="missionImg || missionUpload" class="btn btn-primary del_btn"
-                            (click)=removeMissionFileImg()>{{"Delete" |
-                            translate}}</button>
+                        <button *ngIf="missionImg || missionUpload" type="button" class="btn btn-primary del_btn"
+                            (click)="removeMissionFileImg()">{{"Delete" | translate}}</button>
                         <input type="file" class="custom-file-input" id="missionImgcc"
                             (change)="uploadMissionImgFile($event)">
                     </div>
@@ -377,18 +358,14 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group text-center">
-                    <label for="name">{{"ARImage" | translate}}</label>
+                    <label>{{"ARImage" | translate}}</label>
                     <div class="img_upload">
                         <label for="missionImgACC">
-                            <img class="upload-img" *ngIf="!missionImgAR && !missionUploadAR"
-                                src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="missionImgAR && !missionUploadAR"
-                                src="{{endpoint}}/{{missionImgAR}}" />
-                            <img class="upload-img" *ngIf="missionUploadAR" src="{{missionUploadAR}}" />
+                            <img class="upload-img"
+                                [src]="missionUploadAR || (missionImgAR ? endpoint+'/'+missionImgAR : 'assets/images/upload_img.png')" />
                         </label>
-                        <button *ngIf="missionImgAR || missionUploadAR" class="btn btn-primary del_btn"
-                            (click)=removeMissionARFileImg()>{{"Delete" |
-                            translate}}</button>
+                        <button *ngIf="missionImgAR || missionUploadAR" type="button" class="btn btn-primary del_btn"
+                            (click)="removeMissionARFileImg()">{{"Delete" | translate}}</button>
                         <input type="file" class="custom-file-input" id="missionImgACC"
                             (change)="uploadMissionARImgFile($event)">
                     </div>
@@ -396,7 +373,7 @@
             </div>
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-own" (click)="onSubmitMissionData()">{{"Update" |
+                    <button type="button" class="btn btn-own" (click)="onSubmitMissionData()">{{"Update" |
                         translate}}</button>
                 </div>
             </div>
@@ -404,6 +381,7 @@
     </form>
 </section>
 
+<!-- ═══════════════ Our Values ═══════════════ -->
 <section class="section_separtor">
     <form [formGroup]="ourValuesForm">
         <div class="row">
@@ -414,40 +392,36 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"Title" | translate}}</label>
+                    <label>{{"Title" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
                         formControlName="erTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"description" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="erContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"description" | translate}}</label>
+                    <angular-editor id="values_er" formControlName="erContent" [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <label>{{"TitleAr" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
                         formControlName="arTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"descriptionAR" | translate}}</label>
-                    <angular-editor id="editor1" formControlName="arContent" [config]="editorConfig"></angular-editor>
+                    <label>{{"descriptionAR" | translate}}</label>
+                    <angular-editor id="values_ar" formControlName="arContent" [config]="editorConfig"></angular-editor>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group text-center">
-                    <label for="name">{{"Image" | translate}}</label>
+                    <label>{{"Image" | translate}}</label>
                     <div class="img_upload">
                         <label for="valuesImgsss">
-                            <img class="upload-img" *ngIf="!valuesImg && !valuesUpload"
-                                src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="valuesImg && !valuesUpload"
-                                src="{{endpoint}}/{{valuesImg}}" />
-                            <img class="upload-img" *ngIf="valuesUpload" src="{{valuesUpload}}" />
+                            <img class="upload-img"
+                                [src]="valuesUpload || (valuesImg ? endpoint+'/'+valuesImg : 'assets/images/upload_img.png')" />
                         </label>
-                        <button *ngIf="valuesImg || valuesUpload" class="btn btn-primary del_btn"
-                            (click)=removeValuesFileImg()>{{"Delete" |
-                            translate}}</button>
+                        <button *ngIf="valuesImg || valuesUpload" type="button" class="btn btn-primary del_btn"
+                            (click)="removeValuesFileImg()">{{"Delete" | translate}}</button>
                         <input type="file" class="custom-file-input" id="valuesImgsss"
                             (change)="uploadValuesImgFile($event)">
                     </div>
@@ -455,18 +429,14 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group text-center">
-                    <label for="name">{{"ARImage" | translate}}</label>
+                    <label>{{"ARImage" | translate}}</label>
                     <div class="img_upload">
                         <label for="valueImgACC">
-                            <img class="upload-img" *ngIf="!valueImgAR && !valueUploadAR"
-                                src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="valueImgAR && !valueUploadAR"
-                                src="{{endpoint}}/{{valueImgAR}}" />
-                            <img class="upload-img" *ngIf="valueUploadAR" src="{{valueUploadAR}}" />
+                            <img class="upload-img"
+                                [src]="valueUploadAR || (valueImgAR ? endpoint+'/'+valueImgAR : 'assets/images/upload_img.png')" />
                         </label>
-                        <button *ngIf="valueImgAR || valueUploadAR" class="btn btn-primary del_btn"
-                            (click)=removeValueARFileImg()>{{"Delete" |
-                            translate}}</button>
+                        <button *ngIf="valueImgAR || valueUploadAR" type="button" class="btn btn-primary del_btn"
+                            (click)="removeValueARFileImg()">{{"Delete" | translate}}</button>
                         <input type="file" class="custom-file-input" id="valueImgACC"
                             (change)="uploadValueARImgFile($event)">
                     </div>
@@ -474,7 +444,7 @@
             </div>
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-own" (click)="onSubmitValuesData()">{{"Update" |
+                    <button type="button" class="btn btn-own" (click)="onSubmitValuesData()">{{"Update" |
                         translate}}</button>
                 </div>
             </div>
@@ -482,7 +452,7 @@
     </form>
 </section>
 
-
+<!-- ═══════════════ Interested ═══════════════ -->
 <section class="section_separtor">
     <form [formGroup]="interstedForm">
         <div class="row">
@@ -493,41 +463,39 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"Title" | translate}}</label>
+                    <label>{{"Title" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
                         formControlName="erTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"description" | translate}}</label>
+                    <label>{{"description" | translate}}</label>
                     <textarea class="form-control" placeholder="{{'description' | translate}}"
                         formControlName="erContent"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"String" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
-                        formControlName="enString">
+                    <label>{{"String" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="enString">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">{{"TitleAr" | translate}}</label>
+                    <label>{{"TitleAr" | translate}}</label>
                     <input type="text" class="form-control" placeholder="{{'TitleAr' | translate}}"
                         formControlName="arTitle">
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"descriptionAR" | translate}}</label>
+                    <label>{{"descriptionAR" | translate}}</label>
                     <textarea class="form-control" placeholder="{{'descriptionAR' | translate}}"
                         formControlName="arContent"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="name">{{"StringAR" | translate}}</label>
-                    <input type="text" class="form-control" placeholder="{{'Title' | translate}}"
-                        formControlName="arString">
+                    <label>{{"StringAR" | translate}}</label>
+                    <input type="text" class="form-control" formControlName="arString">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-own" (click)="onSubmitInterestSecData()">{{"Update" |
+                    <button type="button" class="btn btn-own" (click)="onSubmitInterestSecData()">{{"Update" |
                         translate}}</button>
                 </div>
             </div>

@@ -168,6 +168,7 @@ export class OperatingCompaniesComponent implements OnInit {
   removeGerFlowImg() {
     this.gerFlowLogo = "";
     this.gerFileImgUpload = "";
+    this.gerUpload = "";
   }
 
   uploadGerCompanyImageFile(event) {
@@ -185,6 +186,7 @@ export class OperatingCompaniesComponent implements OnInit {
   removeGerCompanyImg() {
     this.gerCompImg = "";
     this.gerCompImgUpload = "";
+    this.getCompUpload = "";
   }
 
   onSubmitGerFlowFormData() {
@@ -303,6 +305,7 @@ export class OperatingCompaniesComponent implements OnInit {
   removeUsgMeLogoImg() {
     this.usgMeLogo = "";
     this.usgMeLogoUploadedFile = "";
+    this.usgMeLogoUpload = "";
   }
 
   uploadUsgMeCompanyFile(event) {
@@ -320,6 +323,7 @@ export class OperatingCompaniesComponent implements OnInit {
   removeUsgMeCompanyImg() {
     this.usgMeCompImg = "";
     this.usgMeCompanyUploadedFile = "";
+    this.usgMeCompUpload = "";
   }
 
   onSubmitUsgMeFormData() {
@@ -436,6 +440,7 @@ export class OperatingCompaniesComponent implements OnInit {
   removeBostikLogoImg() {
     this.bostikLogo = "";
     this.boxtikLogoUploadFile = "";
+    this.bostikLogoupload = "";
   }
 
   uploadBostikCompanyFile(event) {
@@ -453,6 +458,7 @@ export class OperatingCompaniesComponent implements OnInit {
   removeBostikCompanyImg() {
     this.bostikCompImg = "";
     this.boxtikCompanyUploadFile = "";
+    this.boxtikCompUpload = ""; 
   }
 
   onSubmitBostikFormData() {

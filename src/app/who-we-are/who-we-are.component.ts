@@ -271,6 +271,7 @@ export class WhoWeAreComponent implements OnInit {
   removeImg() {
     this.iconImg = "";
     this.fileImgUpload = "";
+    this.whatImage = "";
   }
 
   onSubmitWhatWeDoData() {
@@ -367,6 +368,7 @@ export class WhoWeAreComponent implements OnInit {
   removeVisionFileImg() {
     this.visonImg = "";
     this.visionFileUploaded = "";
+    this.visionUpload = "";
   }
 
   uploadVisionARImgFile(event) {
@@ -384,6 +386,7 @@ export class WhoWeAreComponent implements OnInit {
   removeVisionARFileImg() {
     this.visonImgAR = "";
     this.visionFileUploadedAR = "";
+    this.visionUploadAR = "";
   }
 
   onSubmitVisionData() {
@@ -503,6 +506,7 @@ export class WhoWeAreComponent implements OnInit {
   removeMissionFileImg() {
     this.missionImg = "";
     this.missionFileUpload = "";
+    this.missionUpload = "";
   }
 
   uploadMissionARImgFile(event) {
@@ -520,6 +524,7 @@ export class WhoWeAreComponent implements OnInit {
   removeMissionARFileImg() {
     this.missionImgAR = "";
     this.missionFileUploadedAR = "";
+    this.missionUploadAR = "";
   }
 
   onSubmitMissionData() {
@@ -638,6 +643,7 @@ export class WhoWeAreComponent implements OnInit {
   removeValuesFileImg() {
     this.valuesImg = "";
     this.valuesFileUploaded = "";
+    this.valuesUpload = "";
   }
 
   uploadValueARImgFile(event) {
@@ -655,6 +661,7 @@ export class WhoWeAreComponent implements OnInit {
   removeValueARFileImg() {
     this.valueImgAR = "";
     this.valueFileUploadedAR = "";
+    this.valueUploadAR = "";
   }
 
   onSubmitValuesData() {

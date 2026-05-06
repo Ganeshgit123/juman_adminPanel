@@ -125,120 +125,130 @@ export class WhoWeAreComponent implements OnInit {
     this.authService.getSectionsByHeaderId(object).subscribe(
       (res: any) => {
         this.getValue = res.payload;
+
+        const getByCode = (code: string) =>
+          this.getValue.find((el: any) => el.code === code);
+
+        const getImageBySeq = (images: any[], seq: number) =>
+          images?.find((img: any) => img.seq === seq)?.path;
+
+        // ── Top Section (WHO) ──────────
+        const topSec = getByCode('WHO');
         this.topSectionForm = this.fb.group({
-          id: [this.getValue[0].id],
-          seq: [this.getValue[0].seq],
-          code: [this.getValue[0].code],
-          erTitle: [this.getValue[0].erTitle],
-          arTitle: [this.getValue[0].arTitle],
-          header: [this.getValue[0].header.id],
+          id: [topSec?.id],
+          seq: [topSec?.seq],
+          code: [topSec?.code],
+          erTitle: [topSec?.erTitle],
+          arTitle: [topSec?.arTitle],
+          header: [topSec?.header?.id],
         });
 
+        // ── What We Do (ABOUT) ─────────────────────────────────────────
+        const whatWeDo = getByCode('ABOUT');
         this.whatWeDoForm = this.fb.group({
-          id: [this.getValue[1].id],
-          seq: [this.getValue[1].seq],
-          code: [this.getValue[1].code],
-          erTitle: [this.getValue[1].erTitle],
-          arTitle: [this.getValue[1].arTitle],
-          erContent: [this.getValue[1].erContent],
-          arContent: [this.getValue[1].arContent],
-          header: [this.getValue[1].header.id],
+          id: [whatWeDo?.id],
+          seq: [whatWeDo?.seq],
+          code: [whatWeDo?.code],
+          erTitle: [whatWeDo?.erTitle],
+          arTitle: [whatWeDo?.arTitle],
+          erContent: [whatWeDo?.erContent],
+          arContent: [whatWeDo?.arContent],
+          header: [whatWeDo?.header?.id],
         });
-        this.iconImg = this.getValue[1]?.images[0]?.path;
+        this.iconImg = whatWeDo?.images?.[0]?.path;
 
+        // ── Counter Section (COUNT) ────────────────────────────────────
+        const counterSec = getByCode('COUNT');
+        const ai = counterSec?.additionalInfo;
         this.counterSecForm = this.fb.group({
-          id: [this.getValue[2].id],
-          seq: [this.getValue[2].seq],
-          code: [this.getValue[2].code],
-          erTitle: [this.getValue[2].erTitle],
-          arTitle: [this.getValue[2].arTitle],
-          header: [this.getValue[2].header.id],
-          firstValue: [this.getValue[2].additionalInfo?.firstValue],
-          firstValueAr: [this.getValue[2].additionalInfo?.firstValueAr],
-          firstContent: [this.getValue[2].additionalInfo?.firstContent],
-          arFirstContent: [this.getValue[2].additionalInfo?.arFirstContent],
-          secondValue: [this.getValue[2].additionalInfo?.secondValue],
-          secondValueAr: [this.getValue[2].additionalInfo?.secondValueAr],
-          secondContent: [this.getValue[2].additionalInfo?.secondContent],
-          arSecondContent: [this.getValue[2].additionalInfo?.arSecondContent],
-          thirdValue: [this.getValue[2].additionalInfo?.thirdValue],
-          thirdValueAr: [this.getValue[2].additionalInfo?.thirdValueAr],
-          thirdContent: [this.getValue[2].additionalInfo?.thirdContent],
-          arThirdContent: [this.getValue[2].additionalInfo?.arThirdContent],
-          fourthValue: [this.getValue[2].additionalInfo?.fourthValue],
-          fourthValueAr: [this.getValue[2].additionalInfo?.fourthValueAr],
-          fourthContent: [this.getValue[2].additionalInfo?.fourthContent],
-          arFourthContent: [this.getValue[2].additionalInfo?.arFourthContent],
+          id: [counterSec?.id],
+          seq: [counterSec?.seq],
+          code: [counterSec?.code],
+          erTitle: [counterSec?.erTitle],
+          arTitle: [counterSec?.arTitle],
+          header: [counterSec?.header?.id],
+          firstValue: [ai?.firstValue],
+          firstValueAr: [ai?.firstValueAr],
+          firstContent: [ai?.firstContent],
+          arFirstContent: [ai?.arFirstContent],
+          secondValue: [ai?.secondValue],
+          secondValueAr: [ai?.secondValueAr],
+          secondContent: [ai?.secondContent],
+          arSecondContent: [ai?.arSecondContent],
+          thirdValue: [ai?.thirdValue],
+          thirdValueAr: [ai?.thirdValueAr],
+          thirdContent: [ai?.thirdContent],
+          arThirdContent: [ai?.arThirdContent],
+          fourthValue: [ai?.fourthValue],
+          fourthValueAr: [ai?.fourthValueAr],
+          fourthContent: [ai?.fourthContent],
+          arFourthContent: [ai?.arFourthContent],
         });
 
+        // ── Our Vision (ABOTAB seq=3) ──────────────────────────────────
+        const visionSec = this.getValue.find(
+          (el: any) => el.code === 'ABOTAB' && el.seq === 3
+        );
         this.ourVisionForm = this.fb.group({
-          id: [this.getValue[3].id],
-          seq: [this.getValue[3].seq],
-          code: [this.getValue[3].code],
-          erTitle: [this.getValue[3].erTitle],
-          arTitle: [this.getValue[3].arTitle],
-          erContent: [this.getValue[3].erContent],
-          arContent: [this.getValue[3].arContent],
-          header: [this.getValue[3].header.id],
+          id: [visionSec?.id],
+          seq: [visionSec?.seq],
+          code: [visionSec?.code],
+          erTitle: [visionSec?.erTitle],
+          arTitle: [visionSec?.arTitle],
+          erContent: [visionSec?.erContent],
+          arContent: [visionSec?.arContent],
+          header: [visionSec?.header?.id],
         });
-        const zeroSeqVisoImg = this.getValue[3]?.images.filter(element => {
-          return element.seq === 0;
-        })
-        const firstSeqVisoImg = this.getValue[3]?.images.filter(element => {
-          return element.seq === 1;
-        })
-        this.visonImg = zeroSeqVisoImg[0]?.path;
-        this.visonImgAR = firstSeqVisoImg[0]?.path;
+        this.visonImg = getImageBySeq(visionSec?.images, 0);
+        this.visonImgAR = getImageBySeq(visionSec?.images, 1);
 
+        // ── Our Mission (ABOTAB seq=4) ─────────────────────────────────
+        const missionSec = this.getValue.find(
+          (el: any) => el.code === 'ABOTAB' && el.seq === 4
+        );
         this.ourMissionForm = this.fb.group({
-          id: [this.getValue[4].id],
-          seq: [this.getValue[4].seq],
-          code: [this.getValue[4].code],
-          erTitle: [this.getValue[4].erTitle],
-          arTitle: [this.getValue[4].arTitle],
-          erContent: [this.getValue[4].erContent],
-          arContent: [this.getValue[4].arContent],
-          header: [this.getValue[4].header.id],
+          id: [missionSec?.id],
+          seq: [missionSec?.seq],
+          code: [missionSec?.code],
+          erTitle: [missionSec?.erTitle],
+          arTitle: [missionSec?.arTitle],
+          erContent: [missionSec?.erContent],
+          arContent: [missionSec?.arContent],
+          header: [missionSec?.header?.id],
         });
-        const zeroSeqMissionImg = this.getValue[4]?.images.filter(element => {
-          return element.seq === 0;
-        })
-        const firstSeqMissionImg = this.getValue[4]?.images.filter(element => {
-          return element.seq === 1;
-        })
-        this.missionImg = zeroSeqMissionImg[0]?.path;
-        this.missionImgAR = firstSeqMissionImg[0]?.path;
+        this.missionImg = getImageBySeq(missionSec?.images, 0);
+        this.missionImgAR = getImageBySeq(missionSec?.images, 1);
 
+        // ── Our Values (ABOTAB seq=5) ──────────────────────────────────
+        const valuesSec = this.getValue.find(
+          (el: any) => el.code === 'ABOTAB' && el.seq === 5
+        );
         this.ourValuesForm = this.fb.group({
-          id: [this.getValue[5].id],
-          seq: [this.getValue[5].seq],
-          code: [this.getValue[5].code],
-          erTitle: [this.getValue[5].erTitle],
-          arTitle: [this.getValue[5].arTitle],
-          erContent: [this.getValue[5].erContent],
-          arContent: [this.getValue[5].arContent],
-          header: [this.getValue[5].header.id],
+          id: [valuesSec?.id],
+          seq: [valuesSec?.seq],
+          code: [valuesSec?.code],
+          erTitle: [valuesSec?.erTitle],
+          arTitle: [valuesSec?.arTitle],
+          erContent: [valuesSec?.erContent],
+          arContent: [valuesSec?.arContent],
+          header: [valuesSec?.header?.id],
         });
-        const zeroSeqValueImg = this.getValue[5]?.images.filter(element => {
-          return element.seq === 0;
-        })
-        const firstSeqValueImg = this.getValue[5]?.images.filter(element => {
-          return element.seq === 1;
-        })
-        this.valuesImg = zeroSeqValueImg[0]?.path;
-        this.valueImgAR = firstSeqValueImg[0]?.path;
+        this.valuesImg = getImageBySeq(valuesSec?.images, 0);
+        this.valueImgAR = getImageBySeq(valuesSec?.images, 1);
 
+        // ── Interested Section (ABBOTT) ────────────────────────────────
+        const interestedSec = getByCode('ABBOTT');
         this.interstedForm = this.fb.group({
-          id: [this.getValue[6].id],
-          seq: [this.getValue[6].seq],
-          code: [this.getValue[6].code],
-          erTitle: [this.getValue[6].erTitle],
-          arTitle: [this.getValue[6].arTitle],
-          erContent: [this.getValue[6].erContent],
-          arContent: [this.getValue[6].arContent],
-          header: [this.getValue[6].header.id],
-          enString: [this.getValue[6].additionalInfo?.enString],
-          arString: [this.getValue[6].additionalInfo?.arString],
+          id: [interestedSec?.id],
+          seq: [interestedSec?.seq],
+          code: [interestedSec?.code],
+          erTitle: [interestedSec?.erTitle],
+          arTitle: [interestedSec?.arTitle],
+          erContent: [interestedSec?.erContent],
+          arContent: [interestedSec?.arContent],
+          header: [interestedSec?.header?.id],
+          enString: [interestedSec?.additionalInfo?.enString],
+          arString: [interestedSec?.additionalInfo?.arString],
         });
       });
   }

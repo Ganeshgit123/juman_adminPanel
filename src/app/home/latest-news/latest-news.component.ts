@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -32,127 +32,167 @@ export class LatestNewsComponent implements OnInit {
 
   newsLinkForm: FormGroup;
   getLinkValue: any;
-
   latestHeadForm: FormGroup;
 
-  constructor(public fb: FormBuilder, public authService: AuthService, private toastr: ToastrService,
-    private router: Router, private spinner: NgxSpinnerService,) {
+  // ✅ Added - ViewChild refs for all 3 file inputs
+  @ViewChild('lat1FileInput') lat1FileInput: ElementRef;
+  @ViewChild('lat2FileInput') lat2FileInput: ElementRef;
+  @ViewChild('lat3FileInput') lat3FileInput: ElementRef;
+
+  constructor(
+    public fb: FormBuilder,
+    public authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router,
+    private spinner: NgxSpinnerService,
+  ) {
     this.latestForm1 = this.fb.group({
-      seq: [''], code: [''], erTitle: [''], arTitle: [''], erContent: [''], arContent: [''], header: [''],
+      seq: [''], code: [''], erTitle: [''], arTitle: [''],
+      erContent: [''], arContent: [''], header: [''],
       link: [''], linkAr: [''], date: [''],
     });
     this.latestForm22 = this.fb.group({
-      seq: [''], code: [''], erTitle: [''], arTitle: [''], erContent: [''], arContent: [''], header: [''],
+      seq: [''], code: [''], erTitle: [''], arTitle: [''],
+      erContent: [''], arContent: [''], header: [''],
       link: [''], linkAr: [''], date: [''],
     });
     this.latestForm33 = this.fb.group({
-      seq: [''], code: [''], erTitle: [''], arTitle: [''], erContent: [''], arContent: [''], header: [''],
+      seq: [''], code: [''], erTitle: [''], arTitle: [''],
+      erContent: [''], arContent: [''], header: [''],
       link: [''], linkAr: [''], date: [''],
     });
     this.newsLinkForm = this.fb.group({
-      seq: [''], code: [''], erTitle: [''], arTitle: [''], erContent: [''], arContent: [''], additionalInfo: [''], header: [''],
+      seq: [''], code: [''], erTitle: [''], arTitle: [''],
+      erContent: [''], arContent: [''], additionalInfo: [''], header: [''],
     });
     this.latestHeadForm = this.fb.group({
-      seq: [''], code: [''], erTitle: [''], arTitle: [''], erContent: [''], arContent: [''], header: [''],
+      seq: [''], code: [''], erTitle: [''], arTitle: [''],
+      erContent: [''], arContent: [''], header: [''],
     });
   }
+
   ngOnInit(): void {
     const object = {
       relations: ["header", "images"],
-      filter: {
-        code: "LANEWS"
-      },
+      filter: { code: "LANEWS" },
       sort: { seq: "ASC" }
     }
-    this.authService.getSectionsByHeaderId(object).subscribe(
-      (res: any) => {
-        this.getValue = res.payload;
-        this.latestForm1 = this.fb.group({
-          id: [this.getValue[0].id],
-          seq: [this.getValue[0].seq],
-          code: [this.getValue[0].code],
-          erTitle: [this.getValue[0].erTitle],
-          arTitle: [this.getValue[0].arTitle],
-          erContent: [this.getValue[0].erContent],
-          arContent: [this.getValue[0].arContent],
-          header: [this.getValue[0].header.id],
-          link: [this.getValue[0]?.additionalInfo?.link],
-          linkAr: [this.getValue[0]?.additionalInfo?.linkAr],
-          date: [this.getValue[0]?.additionalInfo?.date],
-        });
-        this.latestImg11 = this.getValue[0]?.images[0]?.path;
 
-        this.latestForm22 = this.fb.group({
-          id: [this.getValue[1].id],
-          seq: [this.getValue[1].seq],
-          code: [this.getValue[1].code],
-          erTitle: [this.getValue[1].erTitle],
-          arTitle: [this.getValue[1].arTitle],
-          erContent: [this.getValue[1].erContent],
-          arContent: [this.getValue[1].arContent],
-          header: [this.getValue[1].header.id],
-          link: [this.getValue[1]?.additionalInfo?.link],
-          linkAr: [this.getValue[1]?.additionalInfo?.linkAr],
-          date: [this.getValue[1]?.additionalInfo?.date],
-        });
-        this.latestImg2 = this.getValue[1]?.images[0]?.path;
+    this.authService.getSectionsByHeaderId(object).subscribe((res: any) => {
+      this.getValue = res.payload;
 
-        this.latestForm33 = this.fb.group({
-          id: [this.getValue[2].id],
-          seq: [this.getValue[2].seq],
-          code: [this.getValue[2].code],
-          erTitle: [this.getValue[2].erTitle],
-          arTitle: [this.getValue[2].arTitle],
-          erContent: [this.getValue[2].erContent],
-          arContent: [this.getValue[2].arContent],
-          header: [this.getValue[2].header.id],
-          link: [this.getValue[2]?.additionalInfo?.link],
-          linkAr: [this.getValue[2]?.additionalInfo?.linkAr],
-          date: [this.getValue[2]?.additionalInfo?.date],
-        });
-        this.latestImg3 = this.getValue[2]?.images[0]?.path;
+      this.latestForm1 = this.fb.group({
+        id: [this.getValue[0].id],
+        seq: [this.getValue[0].seq],
+        code: [this.getValue[0].code],
+        erTitle: [this.getValue[0].erTitle],
+        arTitle: [this.getValue[0].arTitle],
+        erContent: [this.getValue[0].erContent],
+        arContent: [this.getValue[0].arContent],
+        header: [this.getValue[0].header.id],
+        link: [this.getValue[0]?.additionalInfo?.link],
+        linkAr: [this.getValue[0]?.additionalInfo?.linkAr],
+        date: [this.getValue[0]?.additionalInfo?.date],
       });
+      this.latestImg11 = this.getValue[0]?.images[0]?.path;
+
+      this.latestForm22 = this.fb.group({
+        id: [this.getValue[1].id],
+        seq: [this.getValue[1].seq],
+        code: [this.getValue[1].code],
+        erTitle: [this.getValue[1].erTitle],
+        arTitle: [this.getValue[1].arTitle],
+        erContent: [this.getValue[1].erContent],
+        arContent: [this.getValue[1].arContent],
+        header: [this.getValue[1].header.id],
+        link: [this.getValue[1]?.additionalInfo?.link],
+        linkAr: [this.getValue[1]?.additionalInfo?.linkAr],
+        date: [this.getValue[1]?.additionalInfo?.date],
+      });
+      this.latestImg2 = this.getValue[1]?.images[0]?.path;
+
+      this.latestForm33 = this.fb.group({
+        id: [this.getValue[2].id],
+        seq: [this.getValue[2].seq],
+        code: [this.getValue[2].code],
+        erTitle: [this.getValue[2].erTitle],
+        arTitle: [this.getValue[2].arTitle],
+        erContent: [this.getValue[2].erContent],
+        arContent: [this.getValue[2].arContent],
+        header: [this.getValue[2].header.id],
+        link: [this.getValue[2]?.additionalInfo?.link],
+        linkAr: [this.getValue[2]?.additionalInfo?.linkAr],
+        date: [this.getValue[2]?.additionalInfo?.date],
+      });
+      this.latestImg3 = this.getValue[2]?.images[0]?.path;
+    });
 
     const object1 = {
       relations: ["header", "images"],
-      filter: {
-        code: "NEWSLI"
-      },
+      filter: { code: "NEWSLI" },
       sort: { seq: "ASC" }
     }
-    this.authService.getSectionsByHeaderId(object1).subscribe(
-      (res: any) => {
-        this.getLinkValue = res.payload;
-        this.newsLinkForm = this.fb.group({
-          id: [this.getLinkValue[0].id],
-          seq: [this.getLinkValue[0].seq],
-          code: [this.getLinkValue[0].code],
-          erTitle: [this.getLinkValue[0].erTitle],
-          arTitle: [this.getLinkValue[0].arTitle],
-          erContent: [this.getLinkValue[0].erContent],
-          arContent: [this.getLinkValue[0].arContent],
-          additionalInfo: [this.getLinkValue[0].additionalInfo],
-          header: [this.getLinkValue[0].header.id],
-        });
-      })
+
+    this.authService.getSectionsByHeaderId(object1).subscribe((res: any) => {
+      this.getLinkValue = res.payload;
+      this.newsLinkForm = this.fb.group({
+        id: [this.getLinkValue[0].id],
+        seq: [this.getLinkValue[0].seq],
+        code: [this.getLinkValue[0].code],
+        erTitle: [this.getLinkValue[0].erTitle],
+        arTitle: [this.getLinkValue[0].arTitle],
+        erContent: [this.getLinkValue[0].erContent],
+        arContent: [this.getLinkValue[0].arContent],
+        additionalInfo: [this.getLinkValue[0].additionalInfo],
+        header: [this.getLinkValue[0].header.id],
+      });
+    });
   }
+
+  // ✅ Added - individual reset helpers for each news image section
+  resetLat1ImageState() {
+    this.latestImg11 = null;
+    this.lateImageFileUploaded = null;
+    this.latUpload = null;
+    if (this.lat1FileInput) {
+      this.lat1FileInput.nativeElement.value = '';
+    }
+  }
+
+  resetLat2ImageState() {
+    this.latestImg2 = null;
+    this.lateImage22FileUploaded = null;
+    this.lat2Upload = null;
+    if (this.lat2FileInput) {
+      this.lat2FileInput.nativeElement.value = '';
+    }
+  }
+
+  resetLat3ImageState() {
+    this.latestImg3 = null;
+    this.lateImage33FileUploaded = null;
+    this.lat3Upload = null;
+    if (this.lat3FileInput) {
+      this.lat3FileInput.nativeElement.value = '';
+    }
+  }
+
+  // ---- News 1 ----
 
   uploadLatestImageFile(event) {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files && event.target.files[0];
+      const file = event.target.files[0];
       var reader = new FileReader();
-      reader.onload = (event: any) => {
-        this.latUpload = event.target.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => { this.latUpload = e.target.result; }
+      reader.readAsDataURL(file);
       this.lateImageFileUploaded = file;
     }
   }
 
   removeLatest1Img() {
-    this.latestImg11 = "";
-    this.lateImageFileUploaded = "";
+    this.resetLat1ImageState(); // ✅ Replaced empty string assignments
   }
+
   onSubmitLatest1FormData() {
     const object = {
       id: this.latestForm1.value.id,
@@ -169,59 +209,57 @@ export class LatestNewsComponent implements OnInit {
         date: this.latestForm1.value.date,
       }
     }
+
     if (this.lateImageFileUploaded) {
       this.spinner.show();
       const formData = new FormData();
-      formData.append('images', this.lateImageFileUploaded)
-      formData.append('section_id', '4aa33634-eb6b-4736-9f2d-1120c05daadd',)
-      formData.append('seqs', '[0]')
-      formData.append('ids', '["a63860cf-31a5-4e38-93c3-667783bc9d93"]')
+      formData.append('images', this.lateImageFileUploaded);
+      formData.append('section_id', '4aa33634-eb6b-4736-9f2d-1120c05daadd');
+      formData.append('seqs', '[0]');
+      formData.append('ids', '["a63860cf-31a5-4e38-93c3-667783bc9d93"]');
 
-      this.authService.uploadImage(formData)
-        .subscribe((res: any) => {
-          if (res.code == 200) {
-            this.latestImg11 = res.payload[0].path;
-            this.authService.updateSection(object)
-              .subscribe((res: any) => {
-                if (res.isSuccess == true) {
-                  this.toastr.success('Success ', 'Updated Successfully');
-                  this.spinner.hide();
-                  this.ngOnInit();
-                } else {
-                  this.toastr.error('Enter valid ', 'Error');
-                }
-              });
-          }
-        });
+      this.authService.uploadImage(formData).subscribe((res: any) => {
+        if (res.code == 200) {
+          this.latestImg11 = res.payload[0].path;
+          this.resetLat1ImageState(); // ✅ Clears stale file after upload
+          this.authService.updateSection(object).subscribe((res: any) => {
+            if (res.isSuccess == true) {
+              this.toastr.success('Success ', 'Updated Successfully');
+              this.spinner.hide();
+              this.ngOnInit();
+            } else {
+              this.toastr.error('Enter valid ', 'Error');
+            }
+          });
+        }
+      });
     } else {
-      this.authService.updateSection(object)
-        .subscribe((res: any) => {
-          if (res.isSuccess == true) {
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.spinner.hide();
-            this.ngOnInit();
-          } else {
-            this.toastr.error('Enter valid ', 'Error');
-          }
-        });
+      this.authService.updateSection(object).subscribe((res: any) => {
+        if (res.isSuccess == true) {
+          this.toastr.success('Success ', 'Updated Successfully');
+          this.spinner.hide();
+          this.ngOnInit();
+        } else {
+          this.toastr.error('Enter valid ', 'Error');
+        }
+      });
     }
   }
 
+  // ---- News 2 ----
+
   uploadLatest2ImageFile(event) {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files && event.target.files[0];
+      const file = event.target.files[0];
       var reader = new FileReader();
-      reader.onload = (event: any) => {
-        this.lat2Upload = event.target.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => { this.lat2Upload = e.target.result; }
+      reader.readAsDataURL(file);
       this.lateImage22FileUploaded = file;
     }
   }
 
   removeLatest2Img() {
-    this.latestImg2 = "";
-    this.lateImage22FileUploaded = "";
+    this.resetLat2ImageState(); // ✅ Replaced empty string assignments
   }
 
   onSubmitLatest22FormData() {
@@ -240,59 +278,57 @@ export class LatestNewsComponent implements OnInit {
         date: this.latestForm22.value.date,
       }
     }
+
     if (this.lateImage22FileUploaded) {
       this.spinner.show();
       const formData = new FormData();
-      formData.append('images', this.lateImage22FileUploaded)
-      formData.append('section_id', '943d6022-213f-4067-8eb6-d15ea55c20da',)
-      formData.append('seqs', '[1]')
-      formData.append('ids', '["642bfa5a-396a-480a-9dad-1ebb6ffc0b08"]')
+      formData.append('images', this.lateImage22FileUploaded);
+      formData.append('section_id', '943d6022-213f-4067-8eb6-d15ea55c20da');
+      formData.append('seqs', '[1]');
+      formData.append('ids', '["642bfa5a-396a-480a-9dad-1ebb6ffc0b08"]');
 
-      this.authService.uploadImage(formData)
-        .subscribe((res: any) => {
-          if (res.code == 200) {
-            this.latestImg2 = res.payload[0].path;
-            this.authService.updateSection(object)
-              .subscribe((res: any) => {
-                if (res.isSuccess == true) {
-                  this.toastr.success('Success ', 'Updated Successfully');
-                  this.spinner.hide();
-                  this.ngOnInit();
-                } else {
-                  this.toastr.error('Enter valid ', 'Error');
-                }
-              });
-          }
-        });
+      this.authService.uploadImage(formData).subscribe((res: any) => {
+        if (res.code == 200) {
+          this.latestImg2 = res.payload[0].path;
+          this.resetLat2ImageState(); // ✅ Clears stale file after upload
+          this.authService.updateSection(object).subscribe((res: any) => {
+            if (res.isSuccess == true) {
+              this.toastr.success('Success ', 'Updated Successfully');
+              this.spinner.hide();
+              this.ngOnInit();
+            } else {
+              this.toastr.error('Enter valid ', 'Error');
+            }
+          });
+        }
+      });
     } else {
-      this.authService.updateSection(object)
-        .subscribe((res: any) => {
-          if (res.isSuccess == true) {
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.spinner.hide();
-            this.ngOnInit();
-          } else {
-            this.toastr.error('Enter valid ', 'Error');
-          }
-        });
+      this.authService.updateSection(object).subscribe((res: any) => {
+        if (res.isSuccess == true) {
+          this.toastr.success('Success ', 'Updated Successfully');
+          this.spinner.hide();
+          this.ngOnInit();
+        } else {
+          this.toastr.error('Enter valid ', 'Error');
+        }
+      });
     }
   }
 
+  // ---- News 3 ----
+
   uploadLatest3ImageFile(event) {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files && event.target.files[0];
+      const file = event.target.files[0];
       var reader = new FileReader();
-      reader.onload = (event: any) => {
-        this.lat3Upload = event.target.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => { this.lat3Upload = e.target.result; }
+      reader.readAsDataURL(file);
       this.lateImage33FileUploaded = file;
     }
   }
 
   removeLatest3Img() {
-    this.latestImg3 = "";
-    this.lateImage33FileUploaded = "";
+    this.resetLat3ImageState(); // ✅ Replaced empty string assignments
   }
 
   onSubmitLatest33FormData() {
@@ -311,54 +347,53 @@ export class LatestNewsComponent implements OnInit {
         date: this.latestForm33.value.date,
       }
     }
+
     if (this.lateImage33FileUploaded) {
       this.spinner.show();
       const formData = new FormData();
-      formData.append('images', this.lateImage33FileUploaded)
-      formData.append('section_id', '3adfe7bb-ae10-4d0a-89a0-02e6da5f0609',)
-      formData.append('seqs', '[2]')
-      formData.append('ids', '["a009fc0f-1ef5-42ee-99f5-5c2e973dc39d"]')
+      formData.append('images', this.lateImage33FileUploaded);
+      formData.append('section_id', '3adfe7bb-ae10-4d0a-89a0-02e6da5f0609');
+      formData.append('seqs', '[2]');
+      formData.append('ids', '["a009fc0f-1ef5-42ee-99f5-5c2e973dc39d"]');
 
-      this.authService.uploadImage(formData)
-        .subscribe((res: any) => {
-          if (res.code == 200) {
-            this.latestImg3 = res.payload[0].path;
-            this.authService.updateSection(object)
-              .subscribe((res: any) => {
-                if (res.isSuccess == true) {
-                  this.toastr.success('Success ', 'Updated Successfully');
-                  this.spinner.hide();
-                  this.ngOnInit();
-                } else {
-                  this.toastr.error('Enter valid ', 'Error');
-                }
-              });
-          }
-        });
+      this.authService.uploadImage(formData).subscribe((res: any) => {
+        if (res.code == 200) {
+          this.latestImg3 = res.payload[0].path;
+          this.resetLat3ImageState(); // ✅ Clears stale file after upload
+          this.authService.updateSection(object).subscribe((res: any) => {
+            if (res.isSuccess == true) {
+              this.toastr.success('Success ', 'Updated Successfully');
+              this.spinner.hide();
+              this.ngOnInit();
+            } else {
+              this.toastr.error('Enter valid ', 'Error');
+            }
+          });
+        }
+      });
     } else {
-      this.authService.updateSection(object)
-        .subscribe((res: any) => {
-          if (res.isSuccess == true) {
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.spinner.hide();
-            this.ngOnInit();
-          } else {
-            this.toastr.error('Enter valid ', 'Error');
-          }
-        });
-    }
-  }
-
-  obSubmitLinkForm() {
-    this.authService.updateSection(this.newsLinkForm.value)
-      .subscribe((res: any) => {
+      this.authService.updateSection(object).subscribe((res: any) => {
         if (res.isSuccess == true) {
           this.toastr.success('Success ', 'Updated Successfully');
+          this.spinner.hide();
           this.ngOnInit();
         } else {
           this.toastr.error('Enter valid ', 'Error');
         }
       });
+    }
   }
 
+  // ---- News Link ----
+
+  obSubmitLinkForm() {
+    this.authService.updateSection(this.newsLinkForm.value).subscribe((res: any) => {
+      if (res.isSuccess == true) {
+        this.toastr.success('Success ', 'Updated Successfully');
+        this.ngOnInit();
+      } else {
+        this.toastr.error('Enter valid ', 'Error');
+      }
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -66,28 +66,32 @@ export class BannerComponent implements OnInit {
 
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
   @ViewChild(MatSort) matSort: MatSort;
+  @ViewChild('fileInput') fileInput: ElementRef; // ✅ Added
 
-  constructor(private modalService: NgbModal, public fb: FormBuilder, public authService: AuthService,
-    private toastr: ToastrService, private router: Router, private spinner: NgxSpinnerService,) { }
+  constructor(
+    private modalService: NgbModal,
+    public fb: FormBuilder,
+    public authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router,
+    private spinner: NgxSpinnerService,
+  ) { }
 
   ngOnInit(): void {
-    this.displayedColumns = ['index', 'pageName', 'path', 'rowActionToggle',
-      'rowActionIcon'];
+    this.displayedColumns = ['index', 'pageName', 'path', 'rowActionToggle', 'rowActionIcon'];
+
     const object = {
       relations: ["header"],
-      sort: {
-        seq: "ASC"
-      }
+      sort: { seq: "ASC" }
     }
-    this.authService.getBanners(object).subscribe(
-      (res: any) => {
-        this.getvalue = res.payload;
-        this.getDataLength = this.getvalue.length;
-        this.dataSource = new MatTableDataSource(this.getvalue);
-        this.dataSource.paginator = this.matPaginator;
-        this.dataSource.sort = this.matSort;
-      }
-    );
+
+    this.authService.getBanners(object).subscribe((res: any) => {
+      this.getvalue = res.payload;
+      this.getDataLength = this.getvalue.length;
+      this.dataSource = new MatTableDataSource(this.getvalue);
+      this.dataSource.paginator = this.matPaginator;
+      this.dataSource.sort = this.matSort;
+    });
 
     if (this.contentShow) {
       this.bannerForm = this.fb.group({
@@ -111,20 +115,16 @@ export class BannerComponent implements OnInit {
       });
     }
 
-
     const object1 = {
-      sort: {
-        seq: "ASC"
-      },
-      filter: {
-        isActive: true
-      }
+      sort: { seq: "ASC" },
+      filter: { isActive: true }
     }
 
-    this.authService.getHeader(object1).subscribe(
-      (res: any) => {
-        this.getpages = res.payload.filter(item => item.seq !== 2 && item.seq !== 5 && item.seq !== 11)
-      })
+    this.authService.getHeader(object1).subscribe((res: any) => {
+      this.getpages = res.payload.filter(
+        item => item.seq !== 2 && item.seq !== 5 && item.seq !== 11
+      );
+    });
   }
 
   get f() { return this.bannerForm.controls; }
@@ -134,6 +134,16 @@ export class BannerComponent implements OnInit {
       this.matPaginator._intl.itemsPerPageLabel = 'Items per page';
     } else {
       this.matPaginator._intl.itemsPerPageLabel = 'معلومات كل صفحة';
+    }
+  }
+
+  // ✅ Added - centralized reset for all image-related state
+  resetImageState() {
+    this.iconImg = null;
+    this.fileImgUpload = null;
+    this.fileUpload = null;
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = ''; // clears the native DOM file input
     }
   }
 
@@ -149,14 +159,20 @@ export class BannerComponent implements OnInit {
   openModal(content) {
     this.bannerForm.reset();
     this.submitted = false;
-    this.iconImg = null;
-    this.fileUpload = null;
     this.isEdit = false;
+    this.resetImageState(); // ✅ Replaced manual null assignments
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
   checkFileFormat(checkFile) {
-    if (checkFile.type == 'image/webp' || checkFile.type == 'image/png' || checkFile.type == 'image/jpeg' || checkFile.type == 'image/svg+xml' || checkFile.type == 'image/tif' || checkFile.type == 'image/tiff') {
+    if (
+      checkFile.type == 'image/webp' ||
+      checkFile.type == 'image/png' ||
+      checkFile.type == 'image/jpeg' ||
+      checkFile.type == 'image/svg+xml' ||
+      checkFile.type == 'image/tif' ||
+      checkFile.type == 'image/tiff'
+    ) {
       return false;
     } else {
       return true;
@@ -164,8 +180,7 @@ export class BannerComponent implements OnInit {
   }
 
   removeImg() {
-    this.iconImg = "";
-    this.fileImgUpload = "";
+    this.resetImageState(); // ✅ Replaced manual assignments
   }
 
   uploadImageFile(event) {
@@ -190,49 +205,47 @@ export class BannerComponent implements OnInit {
     }
 
     if (this.isEdit) {
-      this.bannerEditService(this.editData)
+      this.bannerEditService(this.editData);
       return;
     }
+
     this.spinner.show();
     const formData = new FormData();
-    formData.append('banners', this.fileImgUpload)
-    formData.append('seq', this.getDataLength)
-    formData.append('header_id', this.bannerForm.value.header_id)
-    formData.append('erTitle', this.bannerForm.value.erTitle ? this.bannerForm.value.erTitle : "")
-    formData.append('arTitle', this.bannerForm.value.arTitle ? this.bannerForm.value.arTitle : "")
-    formData.append('erContent', this.bannerForm.value.erContent ? this.bannerForm.value.erContent : "")
-    formData.append('arContent', this.bannerForm.value.arContent ? this.bannerForm.value.arContent : "")
-    formData.append('isActive', "1")
+    formData.append('banners', this.fileImgUpload);
+    formData.append('seq', this.getDataLength);
+    formData.append('header_id', this.bannerForm.value.header_id);
+    formData.append('erTitle', this.bannerForm.value.erTitle ?? '');
+    formData.append('arTitle', this.bannerForm.value.arTitle ?? '');
+    formData.append('erContent', this.bannerForm.value.erContent ?? '');
+    formData.append('arContent', this.bannerForm.value.arContent ?? '');
+    formData.append('isActive', '1');
 
-    // console.log("Fewf",formData)
-    this.authService.createBanner(formData)
-      .subscribe((res: any) => {
-        if (res.code == 200) {
-          this.toastr.success('Success ', 'Updated Successfully');
-          this.submitted = false;
-          this.spinner.hide();
-          this.bannerForm.reset();
-          this.modalService.dismissAll();
-          this.ngOnInit();
-        } else {
-          this.toastr.error('Error ', 'Error');
-        }
-      });
+    this.authService.createBanner(formData).subscribe((res: any) => {
+      if (res.code == 200) {
+        this.toastr.success('Success ', 'Updated Successfully');
+        this.submitted = false;
+        this.spinner.hide();
+        this.bannerForm.reset();
+        this.resetImageState(); // ✅ Clears file input after successful create
+        this.modalService.dismissAll();
+        this.ngOnInit();
+      } else {
+        this.toastr.error('Error ', 'Error');
+      }
+    });
   }
 
   editBanner(data, content) {
     this.editData = data;
-    this.fileUpload = null;
+    this.resetImageState(); // ✅ Replaced manual null assignment
     this.modalService.open(content, { centered: true, size: 'lg' });
     this.isEdit = true;
     this.submitted = false;
     this.iconImg = data['path'];
+
     var header_id = data.header.id;
-    if (header_id == "d5dc29ae-481b-47a4-80f3-2f1afa274da0") {
-      this.contentShow = true;
-    } else {
-      this.contentShow = false;
-    }
+    this.contentShow = header_id == "d5dc29ae-481b-47a4-80f3-2f1afa274da0";
+
     this.bannerForm = this.fb.group({
       id: [data['id']],
       header_id: [header_id],
@@ -249,79 +262,68 @@ export class BannerComponent implements OnInit {
     if (this.fileImgUpload) {
       this.spinner.show();
       const formData = new FormData();
-      formData.append('banners', this.fileImgUpload)
-      formData.append('seq', data.seq)
-      formData.append('id', data.id)
-      formData.append('header_id', this.bannerForm.value.header_id)
-      formData.append('erTitle', this.bannerForm.value.erTitle)
-      formData.append('arTitle', this.bannerForm.value.arTitle)
-      formData.append('erContent', this.bannerForm.value.erContent)
-      formData.append('arContent', this.bannerForm.value.arContent)
-      formData.append('isActive', "1")
+      formData.append('banners', this.fileImgUpload);
+      formData.append('seq', data.seq);
+      formData.append('id', data.id);
+      formData.append('header_id', this.bannerForm.value.header_id);
+      formData.append('erTitle', this.bannerForm.value.erTitle);
+      formData.append('arTitle', this.bannerForm.value.arTitle);
+      formData.append('erContent', this.bannerForm.value.erContent);
+      formData.append('arContent', this.bannerForm.value.arContent);
+      formData.append('isActive', '1');
 
-      this.authService.updateBanner(formData)
-        .subscribe((res: any) => {
-          if (res.code == 200) {
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.submitted = false;
-            this.bannerForm.reset();
-            this.modalService.dismissAll();
-            this.ngOnInit();
-            this.spinner.hide();
-          } else {
-            this.toastr.error('Error ', 'Error');
-          }
-        });
-    } else {
-      const object = {
-        id: this.bannerForm.value.header_id
-      }
-      this.bannerForm.value.header = object;
-      this.authService.updateBannerWithoutImg(this.bannerForm.value)
-        .subscribe((res: any) => {
-          if (res.isSuccess == true) {
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.submitted = false;
-            this.bannerForm.reset();
-            this.modalService.dismissAll();
-            this.ngOnInit();
-            this.spinner.hide();
-          } else {
-            this.toastr.error('Error ', 'Error');
-          }
-        });
-    }
-  }
-
-  changeStatus(value) {
-    if (value.isActive == 1) {
-      var visible = 0;
-    } else {
-      var visible = 1
-    }
-    const object = {
-      id: value.id,
-      isActive: visible
-    }
-    this.authService.updateBannerWithoutImg(object)
-      .subscribe((res: any) => {
-        if (res.isSuccess == true) {
+      this.authService.updateBanner(formData).subscribe((res: any) => {
+        if (res.code == 200) {
           this.toastr.success('Success ', 'Updated Successfully');
           this.submitted = false;
+          this.spinner.hide();
           this.bannerForm.reset();
+          this.resetImageState(); // ✅ Clears file input after edit with image
           this.modalService.dismissAll();
           this.ngOnInit();
         } else {
           this.toastr.error('Error ', 'Error');
         }
       });
+    } else {
+      const object = { id: this.bannerForm.value.header_id };
+      this.bannerForm.value.header = object;
+
+      this.authService.updateBannerWithoutImg(this.bannerForm.value).subscribe((res: any) => {
+        if (res.isSuccess == true) {
+          this.toastr.success('Success ', 'Updated Successfully');
+          this.submitted = false;
+          this.bannerForm.reset();
+          this.resetImageState(); // ✅ Clears file input after edit without image
+          this.modalService.dismissAll();
+          this.ngOnInit();
+          this.spinner.hide();
+        } else {
+          this.toastr.error('Error ', 'Error');
+        }
+      });
+    }
+  }
+
+  changeStatus(value) {
+    const object = {
+      id: value.id,
+      isActive: value.isActive == 1 ? 0 : 1 // ✅ Simplified toggle
+    }
+    this.authService.updateBannerWithoutImg(object).subscribe((res: any) => {
+      if (res.isSuccess == true) {
+        this.toastr.success('Success ', 'Updated Successfully');
+        this.submitted = false;
+        this.bannerForm.reset();
+        this.modalService.dismissAll();
+        this.ngOnInit();
+      } else {
+        this.toastr.error('Error ', 'Error');
+      }
+    });
   }
 
   headerSelect(id) {
-    if (id == "d5dc29ae-481b-47a4-80f3-2f1afa274da0") {
-      this.contentShow = true;
-    } else {
-      this.contentShow = false;
-    }
+    this.contentShow = id == "d5dc29ae-481b-47a4-80f3-2f1afa274da0"; // ✅ Simplified
   }
 }

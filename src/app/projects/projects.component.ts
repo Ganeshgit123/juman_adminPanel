@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -33,9 +33,16 @@ export class ProjectsComponent implements OnInit {
 
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
   @ViewChild(MatSort) matSort: MatSort;
+  @ViewChild('fileInput') fileInput: ElementRef; // ✅ Added
 
-  constructor(private modalService: NgbModal, public fb: FormBuilder, public authService: AuthService,
-    private toastr: ToastrService, private router: Router, private spinner: NgxSpinnerService,) { }
+  constructor(
+    private modalService: NgbModal,
+    public fb: FormBuilder,
+    public authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router,
+    private spinner: NgxSpinnerService,
+  ) { }
 
   ngOnInit(): void {
     this.displayedColumns = ['index', 'erTitle', 'arTitle', 'path', 'projDet', 'rowActionToggle', 'rowActionIcon'];
@@ -72,6 +79,16 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
+  // ✅ Added - centralized reset for all image-related state
+  resetImageState() {
+    this.iconImg = null;
+    this.fileImgUpload = null;
+    this.whatImage = null;
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = ''; // clears the native file input DOM element
+    }
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -84,18 +101,23 @@ export class ProjectsComponent implements OnInit {
   openModal(content) {
     this.projectForm.reset();
     this.isEdit = false;
-    this.iconImg = null;
-    this.whatImage = null;
+    this.resetImageState(); // ✅ Replaced 3 manual null assignments
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
   removeImg() {
-    this.iconImg = "";
-    this.fileImgUpload = "";
+    this.resetImageState(); // ✅ Replaced manual assignments
   }
 
   checkFileFormat(checkFile) {
-    if (checkFile.type == 'image/webp' || checkFile.type == 'image/png' || checkFile.type == 'image/jpeg' || checkFile.type == 'image/svg+xml' || checkFile.type == 'image/tif' || checkFile.type == 'image/tiff') {
+    if (
+      checkFile.type == 'image/webp' ||
+      checkFile.type == 'image/png' ||
+      checkFile.type == 'image/jpeg' ||
+      checkFile.type == 'image/svg+xml' ||
+      checkFile.type == 'image/tif' ||
+      checkFile.type == 'image/tiff'
+    ) {
       return false;
     } else {
       return true;
@@ -118,15 +140,17 @@ export class ProjectsComponent implements OnInit {
   onSubmitData() {
     if (this.isEdit) {
       this.submitted = false;
-      this.projectEditService(this.editData)
+      this.projectEditService(this.editData);
       return;
     } else {
       if (!(this.projectForm.valid && this.fileImgUpload)) {
         return false;
       }
     }
+
     this.submitted = true;
     this.spinner.show();
+
     const object = {
       seq: this.getLength,
       code: "PROJE",
@@ -134,50 +158,50 @@ export class ProjectsComponent implements OnInit {
       erTitle: this.projectForm.value.erTitle,
       arTitle: this.projectForm.value.arTitle,
     }
-    this.authService.createSection(object)
-      .subscribe((res: any) => {
-        if (res.isSuccess == true) {
-          const section_id = res.payload.id;
-          if (this.fileImgUpload) {
-            const formData = new FormData();
-            formData.append('images', this.fileImgUpload)
-            formData.append('section_id', section_id)
-            formData.append('seqs', '[0]')
-            formData.append('ids', '[]')
 
-            this.authService.uploadImage(formData)
-              .subscribe((res: any) => {
-                if (res.code == 200) {
-                  this.iconImg = res.payload[0].path;
-                  this.toastr.success('Success ', 'Updated Successfully');
-                  this.submitted = false;
-                  this.spinner.hide();
-                  this.projectForm.reset();
-                  this.modalService.dismissAll();
-                  this.ngOnInit();
-                }
-              });
-          } else {
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.submitted = false;
-            this.projectForm.reset();
-            this.spinner.hide();
-            this.modalService.dismissAll();
-            this.ngOnInit();
-          }
+    this.authService.createSection(object).subscribe((res: any) => {
+      if (res.isSuccess == true) {
+        const section_id = res.payload.id;
+        if (this.fileImgUpload) {
+          const formData = new FormData();
+          formData.append('images', this.fileImgUpload);
+          formData.append('section_id', section_id);
+          formData.append('seqs', '[0]');
+          formData.append('ids', '[]');
+
+          this.authService.uploadImage(formData).subscribe((res: any) => {
+            if (res.code == 200) {
+              this.iconImg = res.payload[0].path;
+              this.toastr.success('Success ', 'Updated Successfully');
+              this.submitted = false;
+              this.spinner.hide();
+              this.projectForm.reset();
+              this.resetImageState(); // ✅ Clears file input after successful upload
+              this.modalService.dismissAll();
+              this.ngOnInit();
+            }
+          });
         } else {
-          this.toastr.error('Enter valid ', 'Error');
+          this.toastr.success('Success ', 'Updated Successfully');
+          this.submitted = false;
+          this.projectForm.reset();
+          this.resetImageState(); // ✅ Clears file input
+          this.spinner.hide();
+          this.modalService.dismissAll();
+          this.ngOnInit();
         }
-      });
+      } else {
+        this.toastr.error('Enter valid ', 'Error');
+      }
+    });
   }
 
   editProject(data, content) {
     this.modalService.open(content, { centered: true, size: 'lg' });
-    this.whatImage = null;
-    // console.log("fef", this.editData)
+    this.resetImageState(); // ✅ Replaced manual null assignments
     this.isEdit = true;
-    this.fileImgUpload = null;
     this.sectionId = data['id'];
+
     var imageVal = data.images.filter(item => item.seq == 0);
     this.editData = imageVal[0];
     this.iconImg = imageVal[0]?.path;
@@ -201,69 +225,60 @@ export class ProjectsComponent implements OnInit {
       seqArr.push(data.seq);
 
       const formData = new FormData();
-      formData.append('images', this.fileImgUpload)
-      formData.append('section_id', this.sectionId)
-      formData.append('seqs', seqArr)
-      formData.append('ids', JSON.stringify(array))
+      formData.append('images', this.fileImgUpload);
+      formData.append('section_id', this.sectionId);
+      formData.append('seqs', seqArr);
+      formData.append('ids', JSON.stringify(array));
 
-      this.authService.uploadImage(formData)
-
-        .subscribe((res: any) => {
-          if (res.code == 200) {
-            this.iconImg = res.payload[0].path;
-            // console.log("update",this.projectForm.value)
-            this.authService.updateSection(this.projectForm.value)
-              .subscribe((res: any) => {
-                if (res.isSuccess == true) {
-                  this.toastr.success('Success ', 'Updated Successfully');
-                  this.submitted = false;
-                  this.spinner.hide();
-                  this.projectForm.reset();
-                  this.modalService.dismissAll();
-                  this.ngOnInit();
-                } else {
-                  this.toastr.error('Enter valid ', 'Error');
-                }
-              });
-          }
-        });
+      this.authService.uploadImage(formData).subscribe((res: any) => {
+        if (res.code == 200) {
+          this.iconImg = res.payload[0].path;
+          this.authService.updateSection(this.projectForm.value).subscribe((res: any) => {
+            if (res.isSuccess == true) {
+              this.toastr.success('Success ', 'Updated Successfully');
+              this.submitted = false;
+              this.spinner.hide();
+              this.projectForm.reset();
+              this.resetImageState(); // ✅ Clears file input after edit upload
+              this.modalService.dismissAll();
+              this.ngOnInit();
+            } else {
+              this.toastr.error('Enter valid ', 'Error');
+            }
+          });
+        }
+      });
     } else {
-      this.authService.updateSection(this.projectForm.value)
-        .subscribe((res: any) => {
-          if (res.isSuccess == true) {
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.submitted = false;
-            this.projectForm.reset();
-            this.modalService.dismissAll();
-            this.ngOnInit();
-          } else {
-            this.toastr.error('Enter valid ', 'Error');
-          }
-        });
-    }
-  }
-
-  changeStatus(value) {
-    if (value.isActive == true) {
-      var visible = false;
-    } else {
-      var visible = true
-    }
-    const object = {
-      id: value.id,
-      isActive: visible
-    }
-    this.authService.updateSection(object)
-      .subscribe((res: any) => {
+      this.authService.updateSection(this.projectForm.value).subscribe((res: any) => {
         if (res.isSuccess == true) {
           this.toastr.success('Success ', 'Updated Successfully');
           this.submitted = false;
           this.projectForm.reset();
+          this.resetImageState(); // ✅ Clears file input
           this.modalService.dismissAll();
           this.ngOnInit();
         } else {
           this.toastr.error('Enter valid ', 'Error');
         }
       });
+    }
+  }
+
+  changeStatus(value) {
+    const object = {
+      id: value.id,
+      isActive: !value.isActive // ✅ Simplified toggle logic
+    }
+    this.authService.updateSection(object).subscribe((res: any) => {
+      if (res.isSuccess == true) {
+        this.toastr.success('Success ', 'Updated Successfully');
+        this.submitted = false;
+        this.projectForm.reset();
+        this.modalService.dismissAll();
+        this.ngOnInit();
+      } else {
+        this.toastr.error('Enter valid ', 'Error');
+      }
+    });
   }
 }

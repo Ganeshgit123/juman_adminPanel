@@ -84,7 +84,8 @@
                         </label>
                         <button *ngIf="iconImg || whatImage" type="button" class="btn btn-primary del_btn"
                             (click)="removeImg()">{{"Delete" | translate}}</button>
-                        <input type="file" class="custom-file-input" id="customFile" (change)="uploadImageFile($event)">
+                        <input type="file" class="custom-file-input" id="customFile" #whatWeDoFileInput
+                            (change)="uploadImageFile($event)">
                     </div>
                 </div>
             </div>
@@ -278,7 +279,7 @@
                         </label>
                         <button *ngIf="visonImg || visionUpload" type="button" class="btn btn-primary del_btn"
                             (click)="removeVisionFileImg()">{{"Delete" | translate}}</button>
-                        <input type="file" class="custom-file-input" id="visionImg"
+                        <input type="file" class="custom-file-input" id="visionImg" #visionFileInput
                             (change)="uploadVisionImgFile($event)">
                     </div>
                 </div>
@@ -293,7 +294,7 @@
                         </label>
                         <button *ngIf="visonImgAR || visionUploadAR" type="button" class="btn btn-primary del_btn"
                             (click)="removeVisionARFileImg()">{{"Delete" | translate}}</button>
-                        <input type="file" class="custom-file-input" id="visionImgArabic"
+                        <input type="file" class="custom-file-input" id="visionImgArabic" #visionARFileInput
                             (change)="uploadVisionARImgFile($event)">
                     </div>
                 </div>
@@ -351,7 +352,7 @@
                         </label>
                         <button *ngIf="missionImg || missionUpload" type="button" class="btn btn-primary del_btn"
                             (click)="removeMissionFileImg()">{{"Delete" | translate}}</button>
-                        <input type="file" class="custom-file-input" id="missionImgcc"
+                        <input type="file" class="custom-file-input" id="missionImgcc" #missionFileInput
                             (change)="uploadMissionImgFile($event)">
                     </div>
                 </div>
@@ -422,7 +423,7 @@
                         </label>
                         <button *ngIf="valuesImg || valuesUpload" type="button" class="btn btn-primary del_btn"
                             (click)="removeValuesFileImg()">{{"Delete" | translate}}</button>
-                        <input type="file" class="custom-file-input" id="valuesImgsss"
+                        <input type="file" class="custom-file-input" id="valuesImgsss" #valuesFileInput
                             (change)="uploadValuesImgFile($event)">
                     </div>
                 </div>
@@ -437,7 +438,7 @@
                         </label>
                         <button *ngIf="valueImgAR || valueUploadAR" type="button" class="btn btn-primary del_btn"
                             (click)="removeValueARFileImg()">{{"Delete" | translate}}</button>
-                        <input type="file" class="custom-file-input" id="valueImgACC"
+                        <input type="file" class="custom-file-input" id="valueImgACC" #valuesARFileInput
                             (change)="uploadValueARImgFile($event)">
                     </div>
                 </div>

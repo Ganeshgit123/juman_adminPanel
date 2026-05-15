@@ -46,9 +46,10 @@
                             <p *ngIf="iconImg && !whatImage">{{"FileName" | translate}} : {{endpoint}}/{{iconImg}}</p>
                             <p *ngIf="whatImage">{{"FileName" | translate}} : {{whatImage}}</p>
                         </label>
-                        <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn" (click)=removeImg()>{{"Delete" |
+                        <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn"
+                            (click)=removeImg()>{{"Delete" |
                             translate}}</button>
-                        <input type="file" class="custom-file-input" id="customFile"
+                        <input type="file" class="custom-file-input" id="customFile" #docFileInput
                             (change)="uploadDocFile($event)">
                     </div>
                 </div>
@@ -125,13 +126,16 @@
                     <label for="name">{{"GCCServiceImage" | translate}}</label>
                     <div class="img_upload">
                         <label for="gccSer">
-                            <img class="upload-img" *ngIf="!gccServiceImg && !gccUpload" src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="gccServiceImg && !gccUpload" src="{{endpoint}}/{{gccServiceImg}}" />
+                            <img class="upload-img" *ngIf="!gccServiceImg && !gccUpload"
+                                src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="gccServiceImg && !gccUpload"
+                                src="{{endpoint}}/{{gccServiceImg}}" />
                             <img class="upload-img" *ngIf="gccUpload" src="{{gccUpload}}" />
                         </label>
-                        <button *ngIf="gccServiceImg || gccUpload" class="btn btn-primary del_btn" (click)=removeGcc()>{{"Delete" |
+                        <button *ngIf="gccServiceImg || gccUpload" class="btn btn-primary del_btn"
+                            (click)=removeGcc()>{{"Delete" |
                             translate}}</button>
-                        <input type="file" class="custom-file-input" id="gccSer"
+                        <input type="file" class="custom-file-input" id="gccSer" #gccFileInput
                             (change)="uploadGccServiceFile($event)">
                     </div>
                 </div>
@@ -150,13 +154,16 @@
                     <label for="name">{{"marketPlaceServiceImg" | translate}}</label>
                     <div class="img_upload">
                         <label for="marketSer">
-                            <img class="upload-img" *ngIf="!marketServiceImg && !marketUpload" src="assets/images/upload_img.png" />
-                            <img class="upload-img" *ngIf="marketServiceImg && !marketUpload" src="{{endpoint}}/{{marketServiceImg}}" />
+                            <img class="upload-img" *ngIf="!marketServiceImg && !marketUpload"
+                                src="assets/images/upload_img.png" />
+                            <img class="upload-img" *ngIf="marketServiceImg && !marketUpload"
+                                src="{{endpoint}}/{{marketServiceImg}}" />
                             <img class="upload-img" *ngIf="marketUpload" src="{{marketUpload}}" />
                         </label>
-                        <button *ngIf="marketServiceImg || marketUpload" class="btn btn-primary del_btn" (click)=removeMarketImg()>{{"Delete" |
+                        <button *ngIf="marketServiceImg || marketUpload" class="btn btn-primary del_btn"
+                            (click)=removeMarketImg()>{{"Delete" |
                             translate}}</button>
-                        <input type="file" class="custom-file-input" id="marketSer"
+                        <input type="file" class="custom-file-input" id="marketSer" #marketFileInput
                             (change)="uploadMarketServiceFile($event)">
                     </div>
                 </div>

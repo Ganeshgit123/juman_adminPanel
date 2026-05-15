@@ -61,15 +61,22 @@
                         <label for="name">{{"Image" | translate}}</label>
                         <div class="img_upload">
                             <label for="customFile">
-                                <img class="upload-img" *ngIf="!iconImg && !whatImage" src="assets/images/upload_img.png" />
+                                <img class="upload-img" *ngIf="!iconImg && !whatImage"
+                                    src="assets/images/upload_img.png" />
                                 <img class="upload-img" *ngIf="iconImg && !whatImage" src="{{endpoint}}/{{iconImg}}" />
                                 <img class="upload-img" *ngIf="whatImage" src="{{whatImage}}" />
                             </label>
-                            <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn" (click)=removeImg()>{{"Delete" |
-                                translate}}</button>
-                            <input type="file" class="custom-file-input" id="customFile"
+                            <button *ngIf="iconImg || whatImage" class="btn btn-primary del_btn" (click)="removeImg()">
+                                {{"Delete" | translate}}
+                            </button>
+
+                            <!-- Added #fileInput here -->
+                            <input type="file" class="custom-file-input" id="customFile" #fileInput
                                 (change)="uploadImageFile($event)">
-                            <p *ngIf="(!fileImgUpload) && submitted" style="color: red;">{{"ImageRequired" | translate}}</p>
+
+                            <p *ngIf="(!fileImgUpload) && submitted" style="color: red;">
+                                {{"ImageRequired" | translate}}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -106,7 +113,8 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"Image" | translate}} </th>
             <td mat-cell *matCellDef="let element">
                 <span *ngFor="let img of element.images">
-                    <span *ngIf="img.seq == 0"><img src="{{endpoint}}/{{img.path}}" alt="logo" class="badge_icon"></span>
+                    <span *ngIf="img.seq == 0"><img src="{{endpoint}}/{{img.path}}" alt="logo"
+                            class="badge_icon"></span>
                 </span>
             </td>
         </ng-container>
@@ -115,18 +123,17 @@
             <th mat-header-cell *matHeaderCellDef> {{"ProjectImg" | translate}} </th>
             <td mat-cell *matCellDef="let element" class="text-center">
                 <a routerLink="/project_details/{{element.id}}"><button class="simi_btn">
-                    {{"Images" | translate}}
-                </button></a>
+                        {{"Images" | translate}}
+                    </button></a>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="rowActionToggle">
             <th mat-header-cell *matHeaderCellDef>{{"Status" | translate}}</th>
             <td mat-cell *matCellDef="let element" class="text-center">
-                <button (change)="changeStatus(element)" class="tog_btn">
+                <button class="tog_btn">
                     <label class="switch">
-                        <input unchecked type="checkbox" *ngIf="element.isActive == false">
-                            <input checked type="checkbox" *ngIf="element.isActive == true">
+                        <input type="checkbox" [checked]="element.isActive" (change)="changeStatus(element)">
                         <span class="slider"></span>
                     </label>
                 </button>

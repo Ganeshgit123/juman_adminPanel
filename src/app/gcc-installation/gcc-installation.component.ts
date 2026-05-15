@@ -132,6 +132,7 @@ export class GccInstallationComponent implements OnInit {
   uploadImageFile(event) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files && event.target.files[0];
+      this.iconImg = "";
       var reader = new FileReader();
       reader.onload = (event: any) => {
         this.whatImage = event.target.result;
@@ -143,7 +144,12 @@ export class GccInstallationComponent implements OnInit {
 
   removeImg() {
     this.iconImg = "";
+    this.whatImage = "";
     this.fileImgUpload = "";
+
+    this.gccFirstForm.patchValue({
+      image: null
+    });
   }
 
   onSubmitGCCFormData() {
@@ -160,6 +166,14 @@ export class GccInstallationComponent implements OnInit {
         .subscribe((res: any) => {
           if (res.code == 200) {
             this.iconImg = res.payload[0].path;
+
+            // FIX: update form image object
+            this.gccFirstForm.patchValue({
+              image: res.payload[0]
+            });
+
+            // clear temporary preview
+            this.whatImage = "";
             this.authService.updateSection(this.gccFirstForm.value)
               .subscribe((res: any) => {
                 if (res.isSuccess == true) {

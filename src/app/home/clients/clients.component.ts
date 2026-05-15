@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -35,65 +35,75 @@ export class ClientsComponent implements OnInit {
 
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
   @ViewChild(MatSort) matSort: MatSort;
+  @ViewChild('fileInput') fileInput: ElementRef; // ✅ Added
 
-  constructor(private modalService: NgbModal, public fb: FormBuilder, public authService: AuthService,
-    private toastr: ToastrService, private router: Router, private spinner: NgxSpinnerService,
-    private translate: TranslateService,) {
+  constructor(
+    private modalService: NgbModal,
+    public fb: FormBuilder,
+    public authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService,
+  ) {
     this.clientForm = this.fb.group({
-      seq: [''], code: [''], erTitle: [''], arTitle: [''], erContent: [''], arContent: [''], header: [''],
+      seq: [''], code: [''], erTitle: [''], arTitle: [''],
+      erContent: [''], arContent: [''], header: [''],
     });
   }
-
 
   ngOnInit(): void {
     const object = {
       relations: ["header", "images"],
-      filter: {
-        header: { id: "d5dc29ae-481b-47a4-80f3-2f1afa274da0" }
-      },
+      filter: { header: { id: "d5dc29ae-481b-47a4-80f3-2f1afa274da0" } },
       sort: { seq: "ASC" }
     }
 
-    this.authService.getSectionsByHeaderId(object).subscribe(
-      (res: any) => {
-        var getList = res.payload;
-        this.clientSec = getList.filter(element => {
-          return element.code === 'CLIENT';
-        })
-        this.clientForm = this.fb.group({
-          id: [this.clientSec[0].id],
-          seq: [this.clientSec[0].seq],
-          code: [this.clientSec[0].code],
-          erTitle: [this.clientSec[0].erTitle],
-          arTitle: [this.clientSec[0].arTitle],
-          erContent: [this.clientSec[0].erContent],
-          arContent: [this.clientSec[0].arContent],
-          header: [this.clientSec[0].header.id],
-        });
-        this.sectionId = this.clientSec[0].id;
-        this.logoImages = this.clientSec[0].images.sort(function (first, second) {
-          return first.seq - second.seq;
-        });
-        this.logoImgLength.push(this.logoImages.length);
+    this.authService.getSectionsByHeaderId(object).subscribe((res: any) => {
+      var getList = res.payload;
+      this.clientSec = getList.filter(element => element.code === 'CLIENT');
 
-        this.dataSource = new MatTableDataSource(this.logoImages);
-        this.dataSource.paginator = this.matPaginator;
-        this.dataSource.sort = this.matSort;
+      this.clientForm = this.fb.group({
+        id: [this.clientSec[0].id],
+        seq: [this.clientSec[0].seq],
+        code: [this.clientSec[0].code],
+        erTitle: [this.clientSec[0].erTitle],
+        arTitle: [this.clientSec[0].arTitle],
+        erContent: [this.clientSec[0].erContent],
+        arContent: [this.clientSec[0].arContent],
+        header: [this.clientSec[0].header.id],
       });
+
+      this.sectionId = this.clientSec[0].id;
+      this.logoImages = this.clientSec[0].images.sort((a, b) => a.seq - b.seq);
+      this.logoImgLength = [this.logoImages.length]; // ✅ Fixed: was pushing to array repeatedly on each ngOnInit call
+      this.dataSource = new MatTableDataSource(this.logoImages);
+      this.dataSource.paginator = this.matPaginator;
+      this.dataSource.sort = this.matSort;
+    });
 
     this.displayedColumns = ['index', 'path', 'rowActionToggle', 'rowActionIcon'];
   }
 
+  // ✅ Added - centralized reset for all image-related state
+  resetImageState() {
+    this.iconImg = null;
+    this.fileImgUpload = null;
+    this.whatImage = null;
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = ''; // clears native DOM file input
+    }
+  }
+
   onSubmitPartnerSect() {
-    this.authService.updateSection(this.clientForm.value)
-      .subscribe((res: any) => {
-        if (res.isSuccess == true) {
-          this.toastr.success('Success ', 'Updated Successfully');
-          this.ngOnInit();
-        } else {
-          this.toastr.error('Enter valid ', 'Error');
-        }
-      });
+    this.authService.updateSection(this.clientForm.value).subscribe((res: any) => {
+      if (res.isSuccess == true) {
+        this.toastr.success('Success ', 'Updated Successfully');
+        this.ngOnInit();
+      } else {
+        this.toastr.error('Enter valid ', 'Error');
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -103,7 +113,6 @@ export class ClientsComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -111,18 +120,18 @@ export class ClientsComponent implements OnInit {
 
   openModal(content) {
     this.isEdit = false;
-    this.iconImg = null;
-    this.whatImage = null;
+    this.submitted = false;
+    this.resetImageState(); // ✅ Replaced manual null assignments
     this.modalService.open(content, { centered: true });
   }
 
   removeImg() {
-    this.iconImg = "";
-    this.fileImgUpload = "";
+    this.resetImageState(); // ✅ Replaced manual empty string assignments
   }
 
   uploadImageFile(event) {
     const file = event.target.files && event.target.files[0];
+    if (!file) return;
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event: any) => {
@@ -133,93 +142,84 @@ export class ClientsComponent implements OnInit {
 
   onSubmitImageData() {
     this.submitted = true;
-    if (!this.isEdit) {
-      if (!(this.fileImgUpload)) {
-        return false;
-      }
+    if (!this.isEdit && !this.fileImgUpload) {
+      return false;
     }
     if (this.isEdit) {
-      this.imageUpdateService(this.editData)
+      this.imageUpdateService(this.editData);
       return;
     }
+
     this.spinner.show();
     const formData = new FormData();
-    formData.append('images', this.fileImgUpload)
-    formData.append('section_id', this.sectionId,)
-    formData.append('seqs', JSON.stringify(this.logoImgLength))
-    formData.append('ids', '[]')
-    this.authService.uploadImage(formData)
-      .subscribe((res: any) => {
-        if (res.code == 200) {
-          this.iconImg = res.payload[0].path;
-          this.toastr.success('Success ', 'Updated Successfully');
-          this.submitted = false;
-          this.iconImg = null;
-          this.spinner.hide();
-          this.modalService.dismissAll();
-          this.ngOnInit();
-        }
-      });
+    formData.append('images', this.fileImgUpload);
+    formData.append('section_id', this.sectionId);
+    formData.append('seqs', JSON.stringify(this.logoImgLength));
+    formData.append('ids', '[]');
+
+    this.authService.uploadImage(formData).subscribe((res: any) => {
+      if (res.code == 200) {
+        this.toastr.success('Success ', 'Updated Successfully');
+        this.submitted = false;
+        this.spinner.hide();
+        this.resetImageState(); // ✅ Clears file input after successful create
+        this.modalService.dismissAll();
+        this.ngOnInit();
+      }
+    });
   }
 
   editLogos(data, content) {
     this.editData = data;
-    this.modalService.open(content, { centered: true });
+    this.submitted = false;
+    this.resetImageState(); // ✅ Replaced manual null assignments
+    this.iconImg = data.path; // set after reset since reset nullifies iconImg
     this.isEdit = true;
-    this.fileImgUpload = null;
-    this.whatImage = null;
-    this.iconImg = data.path;
+    this.modalService.open(content, { centered: true });
   }
 
   imageUpdateService(data) {
     if (this.fileImgUpload) {
       this.spinner.show();
-      const array: any = [];
-      array.push(data['id']);
-      const seqArray = [];
-      seqArray.push(data['seq']);
+      const array = [data['id']];
+      const seqArray = [data['seq']];
 
       const formData = new FormData();
-      formData.append('images', this.fileImgUpload)
-      formData.append('section_id', this.sectionId)
-      formData.append('seqs', JSON.stringify(seqArray))
-      formData.append('ids', JSON.stringify(array))
-      this.authService.uploadImage(formData)
-        .subscribe((res: any) => {
-          if (res.code == 200) {
-            this.iconImg = res.payload[0].path;
-            this.toastr.success('Success ', 'Updated Successfully');
-            this.submitted = false;
-            this.iconImg = null;
-            this.spinner.hide();
-            this.modalService.dismissAll();
-            this.ngOnInit();
-          }
-        });
+      formData.append('images', this.fileImgUpload);
+      formData.append('section_id', this.sectionId);
+      formData.append('seqs', JSON.stringify(seqArray));
+      formData.append('ids', JSON.stringify(array));
+
+      this.authService.uploadImage(formData).subscribe((res: any) => {
+        if (res.code == 200) {
+          this.toastr.success('Success ', 'Updated Successfully');
+          this.submitted = false;
+          this.spinner.hide();
+          this.resetImageState(); // ✅ Clears file input after successful edit upload
+          this.modalService.dismissAll();
+          this.ngOnInit();
+        }
+      });
     } else {
       this.submitted = false;
+      this.resetImageState(); // ✅ Clears any stale state even when no new file
       this.modalService.dismissAll();
       this.ngOnInit();
     }
   }
 
   changeStatus(value) {
-    if (value.isActive == true) {
-      var visible = false;
-    } else {
-      var visible = true
+    const object = {
+      id: value.id,
+      isActive: !value.isActive // ✅ Simplified toggle
     }
-
-    const object = { isActive: visible, id: value.id }
-    this.authService.updateImagesWithoutUpload(object)
-      .subscribe((res: any) => {
-        if (res.isSuccess == true) {
-          this.toastr.success('Success ', 'Updated Successfully');
-          this.ngOnInit();
-        } else {
-          this.toastr.error('Enter valid ', 'Error');
-        }
-      });
+    this.authService.updateImagesWithoutUpload(object).subscribe((res: any) => {
+      if (res.isSuccess == true) {
+        this.toastr.success('Success ', 'Updated Successfully');
+        this.ngOnInit();
+      } else {
+        this.toastr.error('Enter valid ', 'Error');
+      }
+    });
   }
-
 }
